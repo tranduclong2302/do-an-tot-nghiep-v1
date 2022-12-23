@@ -34,6 +34,32 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "AND p.brand_id LIKE CONCAT('%',?5,'%')) as tb1 on pro.id=tb1.id", nativeQuery = true)
     Page<Product> adminGetListProducts(String id, String name, String category, String certification, String brand, Pageable pageable);
 
+    @Query(value = "SELECT * FROM product pro right join (SELECT DISTINCT p.* FROM product p " +
+            "INNER JOIN product_category pc ON p.id = pc.product_id " +
+            "INNER JOIN category c ON c.id = pc.category_id " +
+            "INNER JOIN product_certification pce ON p.id = pce.product_id " +
+            "INNER JOIN certification ce ON ce.id = pce.certification_id " +
+            "WHERE p.id LIKE CONCAT('%',?1,'%') " +
+            "AND p.name LIKE CONCAT('%',?2,'%') " +
+            "AND c.id LIKE CONCAT('%',?3,'%') " +
+            "AND ce.id LIKE CONCAT('%',?4,'%') " +
+            "AND p.expiry >= NOW() " +
+            "AND p.brand_id LIKE CONCAT('%',?5,'%')) as tb1 on pro.id=tb1.id", nativeQuery = true)
+    Page<Product> adminGetListProductsSells(String id, String name, String category, String certification, String brand, Pageable pageable);
+
+    @Query(value = "SELECT * FROM product pro right join (SELECT DISTINCT p.* FROM product p " +
+            "INNER JOIN product_category pc ON p.id = pc.product_id " +
+            "INNER JOIN category c ON c.id = pc.category_id " +
+            "INNER JOIN product_certification pce ON p.id = pce.product_id " +
+            "INNER JOIN certification ce ON ce.id = pce.certification_id " +
+            "WHERE p.id LIKE CONCAT('%',?1,'%') " +
+            "AND p.name LIKE CONCAT('%',?2,'%') " +
+            "AND c.id LIKE CONCAT('%',?3,'%') " +
+            "AND ce.id LIKE CONCAT('%',?4,'%') " +
+            "AND p.expiry < NOW() " +
+            "AND p.brand_id LIKE CONCAT('%',?5,'%')) as tb1 on pro.id=tb1.id", nativeQuery = true)
+    Page<Product> adminGetListProductsNotSold(String id, String name, String category, String certification, String brand, Pageable pageable);
+
 //    @Query(value = "SELECT NEW com.vuhien.application.model.dto.ProductInfoDTO(p.id, p.name, p.slug, p.price ,p.images ->> '$[0]', p.total_sold) " +
 //            "FROM product p " +
 //            "WHERE p.status = 1 " +
@@ -96,16 +122,19 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
     //Tìm kiến sản phẩm k theo size
     @Query(nativeQuery = true, name = "searchProductAllSize")
-    List<ProductInfoDTO> searchProductAllSize(List<Long> brands, List<Long> categories, long minPrice, long maxPrice, int limit, int offset);
+    List<ProductInfoDTO> searchProductAllSize(List<Long> brands, List<Long> categories,List<Long> certifications, long minPrice, long maxPrice, int limit, int offset);
 
     //Đếm số sản phẩm
     @Query(nativeQuery = true, value = "SELECT COUNT(DISTINCT product.id) " +
             "FROM product " +
             "INNER JOIN product_category " +
             "ON product.id = product_category.product_id " +
+            "INNER JOIN product_certification " +
+            "ON product.id product_certification.certification_id " +
             "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
-            "AND product.price > ?3 AND product.price < ?4 ")
-    int countProductAllSize(List<Long> brands, List<Long> categories, long minPrice, long maxPrice);
+            "AND product_certification.certification_id IN (?3)" +
+            "AND product.price > ?4 AND product.price < ?5 ")
+    int countProductAllSize(List<Long> brands, List<Long> categories,List<Long> certifications,long minPrice, long maxPrice);
 
     //Tìm kiến sản phẩm theo tên và tên danh mục
     @Query(nativeQuery = true, name = "searchProductByKeyword")

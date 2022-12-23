@@ -22,6 +22,10 @@ public interface ProductService {
     //Lấy sản phẩm
     Page<Product> adminGetListProduct(String id, String name, String category, String certification, String brand, Integer page);
 
+    Page<Product> adminGetListProductsSells(String id, String name, String category, String certification, String brand, Integer page);
+
+    Page<Product> adminGetListProductsNotSold(String id, String name, String category, String certification, String brand, Integer page);
+
     //Tạo sản phẩm
     Product createProduct(CreateProductRequest createProductRequest);
 

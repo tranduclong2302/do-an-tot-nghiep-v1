@@ -82,6 +82,60 @@ public class ProductController {
         return "admin/product/list";
     }
 
+    @GetMapping("/admin/products-sell")
+    public String homePagesSell(Model model,
+                            @RequestParam(defaultValue = "", required = false) String id,
+                            @RequestParam(defaultValue = "", required = false) String name,
+                            @RequestParam(defaultValue = "", required = false) String category,
+                            @RequestParam(defaultValue = "", required = false) String certification,
+                            @RequestParam(defaultValue = "", required = false) String brand,
+                            @RequestParam(defaultValue = "1", required = false) Integer page) {
+
+        //Lấy danh sách nhãn hiệu
+        List<Brand> brands = brandService.getListBrand();
+        model.addAttribute("brands", brands);
+        //Lấy danh sách danh mục
+        List<Category> categories = categoryService.getListCategories();
+        model.addAttribute("categories", categories);
+        //Lấy danh sách chứng nhận
+        List<Certification> certifications = certificationService.getListCertification();
+        model.addAttribute("certifications", certifications);
+        //Lấy danh sách sản phẩm
+        Page<Product> products = productService.adminGetListProductsSells(id, name, category, certification, brand, page);
+        model.addAttribute("products", products.getContent());
+        model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("currentPage", products.getPageable().getPageNumber() + 1);
+
+        return "admin/product/list-sell";
+    }
+
+    @GetMapping("/admin/products-not-sold")
+    public String homePagesNotSold(Model model,
+                                @RequestParam(defaultValue = "", required = false) String id,
+                                @RequestParam(defaultValue = "", required = false) String name,
+                                @RequestParam(defaultValue = "", required = false) String category,
+                                @RequestParam(defaultValue = "", required = false) String certification,
+                                @RequestParam(defaultValue = "", required = false) String brand,
+                                @RequestParam(defaultValue = "1", required = false) Integer page) {
+
+        //Lấy danh sách nhãn hiệu
+        List<Brand> brands = brandService.getListBrand();
+        model.addAttribute("brands", brands);
+        //Lấy danh sách danh mục
+        List<Category> categories = categoryService.getListCategories();
+        model.addAttribute("categories", categories);
+        //Lấy danh sách chứng nhận
+        List<Certification> certifications = certificationService.getListCertification();
+        model.addAttribute("certifications", certifications);
+        //Lấy danh sách sản phẩm
+        Page<Product> products = productService.adminGetListProductsNotSold(id, name, category, certification, brand, page);
+        model.addAttribute("products", products.getContent());
+        model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("currentPage", products.getPageable().getPageNumber() + 1);
+
+        return "admin/product/list-not-sold";
+    }
+
     @GetMapping("/admin/products/create")
     public String getProductCreatePage(Model model) {
         //Lấy danh sách anh của user
@@ -145,6 +199,28 @@ public class ProductController {
                                                   @RequestParam(defaultValue = "", required = false) String brand,
                                                   @RequestParam(defaultValue = "1", required = false) Integer page) {
         Page<Product> products = productService.adminGetListProduct(id, name, category, certification, brand, page);
+        return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/api/admin/products-sell")
+    public ResponseEntity<Object> getListProductsSell(@RequestParam(defaultValue = "", required = false) String id,
+                                                  @RequestParam(defaultValue = "", required = false) String name,
+                                                  @RequestParam(defaultValue = "", required = false) String category,
+                                                  @RequestParam(defaultValue = "", required = false) String certification,
+                                                  @RequestParam(defaultValue = "", required = false) String brand,
+                                                  @RequestParam(defaultValue = "1", required = false) Integer page) {
+        Page<Product> products = productService.adminGetListProductsSells(id, name, category, certification, brand, page);
+        return ResponseEntity.ok(products);
+    }
+
+    @GetMapping("/api/admin/products-not-sold")
+    public ResponseEntity<Object> getListProductsNotSold(@RequestParam(defaultValue = "", required = false) String id,
+                                                      @RequestParam(defaultValue = "", required = false) String name,
+                                                      @RequestParam(defaultValue = "", required = false) String category,
+                                                      @RequestParam(defaultValue = "", required = false) String certification,
+                                                      @RequestParam(defaultValue = "", required = false) String brand,
+                                                      @RequestParam(defaultValue = "1", required = false) Integer page) {
+        Page<Product> products = productService.adminGetListProductsNotSold(id, name, category, certification, brand, page);
         return ResponseEntity.ok(products);
     }
 

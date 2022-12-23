@@ -189,11 +189,17 @@ public class HomeController {
         }
         model.addAttribute("categoryIds", categoryIds);
 
-        //Danh sách size của sản phẩm
-        model.addAttribute("sizeVn", SIZE_VN);
+        //Lấy danh sách danh mục
+        List<Certification> certifications = certificationService.getListCertification();
+        model.addAttribute("certifications",certifications);
+        List<Long> certificationIds = new ArrayList<>();
+        for (Certification certification : certifications) {
+            categoryIds.add(certification.getId());
+        }
+        model.addAttribute("certificationIds", certificationIds);
 
         //Lấy danh sách sản phẩm
-        FilterProductRequest req = new FilterProductRequest(brandIds, categoryIds, new ArrayList<>(), (long) 0, Long.MAX_VALUE, 1);
+        FilterProductRequest req = new FilterProductRequest(brandIds, categoryIds, certificationIds, (long) 0, Long.MAX_VALUE, 1);
         PageableDTO result = productService.filterProduct(req);
         model.addAttribute("totalPages", result.getTotalPages());
         model.addAttribute("currentPage", result.getCurrentPage());

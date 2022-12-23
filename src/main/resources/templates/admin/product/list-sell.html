@@ -10,7 +10,7 @@
                                                )}">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách sản phẩm</title>
+    <title>Danh sách sản phẩm đang bán</title>
     <th:block id="css-resources">
         <link rel="stylesheet" th:href="@{/adminlte/pagination/simplePagination.css}">
     </th:block>
@@ -26,7 +26,7 @@
                         <i class="bx bx-home-alt"></i>
                     </a>
                 </li>
-                <li><span>Danh sách sản phẩm</span></li>
+                <li><span>Danh sách sản phẩm đang bán</span></li>
             </ol>
             <a class="sidebar-right-toggle" data-open="sidebar-right"><i
                     class="fas fa-chevron-left"></i></a>
@@ -39,29 +39,27 @@
                 <a href="#" class="card-action card-action-toggle" data-card-toggle></a>
                 <a href="#" class="card-action card-action-dismiss" data-card-dismiss></a>
             </div>
-            <h2 class="card-title">Danh sách sản phẩm</h2>
+            <h2 class="card-title">Danh sách sản phẩm đang bán</h2>
         </header>
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="mb-3">
-                        <a href="/admin/products/create" id="addToTable" class="btn btn-info">Thêm mới sản phẩm <i
-                                class="fas fa-plus"></i></a>
                         <a href="/admin/products" class="btn btn-primary">Refresh <i
                                 class="fas fa-redo-alt"></i></a>
                         <button id="btn-search" class="btn btn-success">Tìm kiếm <i
                                 class="fas fa-search"></i></button>
                         <button class="btn btn-warning btn_export"><a th:href="@{/api/products/export/excel}">Xuất dữ liệu</a>
                             <i class="fas fa-file-export"></i></button>
-<!--                        <button id="btn-delete" onclick="warningBeforeDelete()" type="button" class="btn btn-danger" disabled>Xóa sản phẩm  <i-->
-<!--                                class="fas fa-trash-alt"></i></button>-->
+                        <!--                        <button id="btn-delete" onclick="warningBeforeDelete()" type="button" class="btn btn-danger" disabled>Xóa sản phẩm  <i-->
+                        <!--                                class="fas fa-trash-alt"></i></button>-->
                     </div>
                 </div>
             </div>
             <table class="table table-bordered table-striped mb-0" id="datatable-editable">
                 <thead>
                 <tr>
-<!--                    <th><input type="checkbox" id="checkAll"></th>-->
+                    <!--                    <th><input type="checkbox" id="checkAll"></th>-->
                     <th width="8%">Mã sản phẩm</th>
                     <th>Tên sản phẩm</th>
                     <th>Ảnh</th>
@@ -80,7 +78,7 @@
                 </tr>
                 <tr>
                     <form method="GET" id="search-form">
-<!--                        <th></th>-->
+                        <!--                        <th></th>-->
                         <th>
                             <input type="text" name="id" id="id" class="form-control search-input">
                         </th>
@@ -125,7 +123,7 @@
                 <tbody>
                 <th:block th:each="product : ${products}">
                     <tr data-item-id="1">
-<!--                        <td><input type="checkbox" id="checkbox_${product.id}" class="myCheckbox" th:value="${product.id}"></td>-->
+                        <!--                        <td><input type="checkbox" id="checkbox_${product.id}" class="myCheckbox" th:value="${product.id}"></td>-->
                         <td th:text="${product.id}"></td>
                         <td th:text="${product.name}"></td>
                         <td><img th:src="@{${product.images[0]}}" width="60px" height="60px"></td>

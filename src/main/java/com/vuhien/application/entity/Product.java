@@ -107,7 +107,7 @@ import java.util.List;
 @NamedNativeQuery(
         name = "getAllProduct",
         resultSetMapping = "shortProductInfoDTO",
-        query = "SELECT p.id, p.name FROM product p"
+        query = "SELECT p.id, p.name FROM product p "
 )
 @NamedNativeQuery(
         name = "getAllBySizeAvailable",
@@ -140,10 +140,14 @@ import java.util.List;
                 "FROM product " +
                 "INNER JOIN product_category " +
                 "ON product.id = product_category.product_id " +
+                "INNER JOIN product_certification " +
+                "ON product.id product_certification.certification_id " +
                 "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
-                "AND product.price > ?3 AND product.price < ?4 " +
-                "LIMIT ?5 " +
-                "OFFSET ?6"
+                "AND product_certification.certification_id IN (?3)" +
+                "AND product.price > ?4 AND product.price < ?5 " +
+                "AND product.expiry >= NOW() " +
+                "LIMIT ?6 " +
+                "OFFSET ?7"
 )
 @NamedNativeQuery(
         name = "searchProductByKeyword",

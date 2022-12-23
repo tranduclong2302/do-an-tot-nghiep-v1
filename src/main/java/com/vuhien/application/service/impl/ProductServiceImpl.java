@@ -1,9 +1,8 @@
 package com.vuhien.application.service.impl;
 
+import com.github.slugify.Slugify;
 import com.vuhien.application.config.CommonUtil;
-import com.vuhien.application.entity.Product;
-import com.vuhien.application.entity.ProductSize;
-import com.vuhien.application.entity.Promotion;
+import com.vuhien.application.entity.*;
 import com.vuhien.application.exception.BadRequestException;
 import com.vuhien.application.exception.InternalServerException;
 import com.vuhien.application.exception.NotFoundException;
@@ -33,6 +32,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,6 +64,26 @@ public class ProductServiceImpl implements ProductService {
         }
         Pageable pageable = PageRequest.of(page, LIMIT_PRODUCT, Sort.by("created_at").descending());
         return productRepository.adminGetListProducts(id, name, category,certification, brand, pageable);
+    }
+
+    @Override
+    public Page<Product> adminGetListProductsSells(String id, String name, String category, String certification, String brand, Integer page) {
+        page--;
+        if (page < 0) {
+            page = 0;
+        }
+        Pageable pageable = PageRequest.of(page, LIMIT_PRODUCT, Sort.by("created_at").descending());
+        return productRepository.adminGetListProductsSells(id, name, category,certification, brand, pageable);
+    }
+
+    @Override
+    public Page<Product> adminGetListProductsNotSold(String id, String name, String category, String certification, String brand, Integer page) {
+        page--;
+        if (page < 0) {
+            page = 0;
+        }
+        Pageable pageable = PageRequest.of(page, LIMIT_PRODUCT, Sort.by("created_at").descending());
+        return productRepository.adminGetListProductsNotSold(id, name, category,certification, brand, pageable);
     }
 
     @Override
@@ -135,6 +155,11 @@ public class ProductServiceImpl implements ProductService {
         if (createProductRequest.getBrandId() == null){
             throw new BadRequestException("Nhãn hiệu trống!");
         }
+
+        if (createProductRequest.getCertification_ids().isEmpty()) {
+            throw new BadRequestException("Nhãn hiệu trống!");
+        }
+
         if (createProductRequest.getDateOfManufacture() == null){
             throw new BadRequestException("Ngày sản xuất trống!");
         }
@@ -143,11 +168,43 @@ public class ProductServiceImpl implements ProductService {
             throw new BadRequestException("Hạn sử dụng trống!");
         }
 
-        Product result = ProductMapper.toProduct(createProductRequest);
+//        Product result = ProductMapper.toProduct(createProductRequest);
+        Product result = product.get();
+        result.setName(createProductRequest.getName());
+        result.setDescription(createProductRequest.getDescription());
+        result.setPrice(createProductRequest.getPrice());
+        result.setQuantity(createProductRequest.getQuantity());
+        result.setDateOfManufacture(CommonUtil.convertStringToDate(createProductRequest.getDateOfManufacture(), false));
+        result.setExpiry(CommonUtil.convertStringToDate(createProductRequest.getExpiry(), false));
+        result.setSalePrice(createProductRequest.getSalePrice());
+        result.setImages(createProductRequest.getImages());
+        result.setImageFeedBack(createProductRequest.getFeedBackImages());
+        result.setStatus(createProductRequest.getStatus());
+        //Gen slug
+        Slugify slug = new Slugify();
+        result.setSlug(slug.slugify(createProductRequest.getName()));
+        //Brand
+        Brand brand = new Brand();
+        brand.setId(createProductRequest.getBrandId());
+        result.setBrand(brand);
+        //Category
+        ArrayList<Category> categories = new ArrayList<>();
+        for (Integer id1 : createProductRequest.getCategoryIds()) {
+            Category category = new Category();
+            category.setId(id1);
+            categories.add(category);
+        }
+        result.setCategories(categories);
+
+        ArrayList<Certification> certifications = new ArrayList<>();
+        for (Long id2 : createProductRequest.getCertification_ids()) {
+            Certification certification = new Certification();
+            certification.setId(id2);
+            certifications.add(certification);
+        }
+        result.setCertifications(certifications);
         result.setId(id);
         result.setModifiedAt(new Timestamp(System.currentTimeMillis()));
-//        result.setDateOfManufacture(CommonUtil.convertToInstant(createProductRequest.getDateOfManufacture(), false));
-//        result.setDateOfManufacture(CommonUtil.convertToInstant(createProductRequest.getExpiry(), false));
         try {
             productRepository.save(result);
         } catch (Exception e) {
@@ -360,21 +417,20 @@ public class ProductServiceImpl implements ProductService {
         int totalItems;
         List<ProductInfoDTO> products;
 
-        if (req.getSizes().isEmpty()) {
+//        if (req.getSizes().isEmpty()) {
             //Nếu không có size
-            products = productRepository.searchProductAllSize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice(), LIMIT_PRODUCT_SHOP, pageUtil.calculateOffset());
-            totalItems = productRepository.countProductAllSize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice());
-        } else {
-            //Nếu có size
-            products = productRepository.searchProductBySize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice(), req.getSizes(), LIMIT_PRODUCT_SHOP, pageUtil.calculateOffset());
-            totalItems = productRepository.countProductBySize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice(), req.getSizes());
-        }
+            products = productRepository.searchProductAllSize(req.getBrands(), req.getCategories(), req.getCertifications() , req.getMinPrice(), req.getMaxPrice(), LIMIT_PRODUCT_SHOP, pageUtil.calculateOffset());
+            totalItems = productRepository.countProductAllSize(req.getBrands(), req.getCategories(), req.getCertifications(), req.getMinPrice(), req.getMaxPrice());
+//        } else {
+//            //Nếu có size
+//            products = productRepository.searchProductBySize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice(), req.getSizes(), LIMIT_PRODUCT_SHOP, pageUtil.calculateOffset());
+//            totalItems = productRepository.countProductBySize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice(), req.getSizes());
+//        }
 
-        //Tính tổng số trang
+//        Tính tổng số trang
         int totalPages = pageUtil.calculateTotalPage(totalItems);
 
         return new PageableDTO(checkPublicPromotion(products), totalPages, req.getPage());
-
     }
 
     @Override

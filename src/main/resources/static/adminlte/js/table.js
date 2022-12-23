@@ -37,9 +37,27 @@ function pagination(totalPages, currentPage) {
 
 // Tìm kiếm khi thay đổi select
 $('.search-select').on('change', function () {
-    $('#page').val("1")
+    $('#page').val("1");
     $('#search-form').submit();
 });
+$('.search-select-brand').on('change', function () {
+    $('#page').val("1");
+    $('#search-form').submit();
+});
+$('.search-select-category').on('change', function () {
+    $('#page').val("1");
+    $('#search-form').submit();
+});
+$('.search-select-certification').on('change', function () {
+    $('#page').val("1");
+    $('#search-form').submit();
+});
+// $('#brand').on('change', function () {
+//     $('#page').val("1");
+//     $('#search-form').submit();
+// });
+
+
 
 // Tìm kiếm khi ấn enter
 $('.search-input').keypress(function (e) {

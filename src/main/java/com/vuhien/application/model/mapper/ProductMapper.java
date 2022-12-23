@@ -9,6 +9,7 @@ import com.vuhien.application.entity.Product;
 import com.vuhien.application.model.dto.ProductDTO;
 import com.vuhien.application.model.request.CreateProductRequest;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class ProductMapper {
