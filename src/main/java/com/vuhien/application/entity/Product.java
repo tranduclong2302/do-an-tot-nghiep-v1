@@ -141,7 +141,7 @@ import java.util.List;
                 "INNER JOIN product_category " +
                 "ON product.id = product_category.product_id " +
                 "INNER JOIN product_certification " +
-                "ON product.id product_certification.certification_id " +
+                "ON product.id = product_certification.product_id " +
                 "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
                 "AND product_certification.certification_id IN (?3)" +
                 "AND product.price > ?4 AND product.price < ?5 " +

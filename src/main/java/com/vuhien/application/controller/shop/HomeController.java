@@ -194,7 +194,7 @@ public class HomeController {
         model.addAttribute("certifications",certifications);
         List<Long> certificationIds = new ArrayList<>();
         for (Certification certification : certifications) {
-            categoryIds.add(certification.getId());
+            certificationIds.add(certification.getId());
         }
         model.addAttribute("certificationIds", certificationIds);
 
