@@ -74,6 +74,7 @@ import java.util.List;
         resultSetMapping = "productInfoDto",
         query = "SELECT p.id, p.name, p.sale_price as price, p.product_view as views, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
                 "FROM product p WHERE p.status = 1 " +
+                "AND p.expiry >= NOW() " +
                 "order by p.created_at DESC limit ?1"
 )
 @NamedNativeQuery(
@@ -82,6 +83,7 @@ import java.util.List;
         query = "SELECT p.id, p.name, p.sale_price as price, p.product_view as views, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
                 "FROM product p " +
                 "WHERE p.status = 1 " +
+                "AND p.expiry >= NOW() " +
                 "ORDER BY total_sold DESC LIMIT ?1"
 )
 
@@ -91,6 +93,7 @@ import java.util.List;
         query = "SELECT p.id, p.name, p.sale_price as price, p.product_view as views, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
                 "FROM product p " +
                 "WHERE p.status = 1 " +
+                "AND p.expiry >= NOW() " +
                 "ORDER BY product_view DESC LIMIT ?1"
 )
 
@@ -101,13 +104,14 @@ import java.util.List;
                 "FROM product p " +
                 "WHERE p.status = 1 " +
                 "AND p.id != ?1 " +
+                "AND p.expiry >= NOW() " +
                 "ORDER BY RAND() " +
                 "LIMIT ?2"
 )
 @NamedNativeQuery(
         name = "getAllProduct",
         resultSetMapping = "shortProductInfoDTO",
-        query = "SELECT p.id, p.name FROM product p "
+        query = "SELECT p.id, p.name FROM product p where p.expiry >= NOW()"
 )
 @NamedNativeQuery(
         name = "getAllBySizeAvailable",
@@ -163,6 +167,7 @@ import java.util.List;
                 "INNER JOIN certification ce " +
                 "ON ce.id = p_ce.certification_id " +
                 "WHERE p.status = 1 AND (p.name LIKE CONCAT('%',:keyword,'%') OR c.name LIKE CONCAT('%',:keyword,'%') OR ce.name LIKE CONCAT('%',:keyword,'%')) " +
+                "AND p.expiry >= NOW() " +
                 "LIMIT :limit " +
                 "OFFSET :offset "
 )
