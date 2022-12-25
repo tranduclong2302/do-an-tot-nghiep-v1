@@ -144,19 +144,39 @@
                         </div><!-- End .collapse -->
                     </div><!-- End .widget -->
 
+<!--                    <div class="widget">-->
+<!--                        <h3 class="widget-title">-->
+<!--                            <a data-toggle="collapse" href="#widget-body-3" role="button" aria-expanded="true"-->
+<!--                               aria-controls="widget-body-3">Size</a>-->
+<!--                        </h3>-->
+<!--                        &lt;!&ndash; Size &ndash;&gt;-->
+<!--                        <div class="size content" id="widget-body-3">-->
+<!--                            <div class="select-filter collapse show" id="size-collapse">-->
+<!--                                <th:block th:each="size : ${sizeVn}">-->
+<!--                                    <div class="item check-size" th:data-id="${size}" th:text="${size}"></div>-->
+<!--                                </th:block>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>&lt;!&ndash; End .widget &ndash;&gt;-->
                     <div class="widget">
                         <h3 class="widget-title">
-                            <a data-toggle="collapse" href="#widget-body-3" role="button" aria-expanded="true"
-                               aria-controls="widget-body-3">Size</a>
+                            <a data-toggle="collapse" href="#widget-body-7" role="button" aria-expanded="true"
+                               aria-controls="widget-body-7">Chứng nhận sản phẩm</a>
                         </h3>
-                        <!-- Size -->
-                        <div class="size content" id="widget-body-3">
-                            <div class="select-filter collapse show" id="size-collapse">
-                                <th:block th:each="size : ${sizeVn}">
-                                    <div class="item check-size" th:data-id="${size}" th:text="${size}"></div>
-                                </th:block>
-                            </div>
-                        </div>
+
+                        <div class="collapse show" id="widget-body-7">
+                            <div class="widget-body">
+                                <ul class="cat-list">
+                                    <th:block th:each="certification : ${certifications}">
+                                        <li>
+                                            <input class="filter-checkbox check-certification" type="checkbox"
+                                                   th:value="${certification.id}"/>
+                                            <span th:text="${certification.name}"></span>
+                                        </li>
+                                    </th:block>
+                                </ul>
+                            </div><!-- End .widget-body -->
+                        </div><!-- End .collapse -->
                     </div><!-- End .widget -->
 
                     <div class="widget">
@@ -191,11 +211,13 @@
     <script th:inline="javascript">
         let brandIds = [[${brandIds}]];
         let categoryIds = [[${categoryIds}]];
+        let certificationIds = [[${certificationIds}]];
         let currentPage = [[${currentPage}]];
         let totalPages = [[${totalPages}]];
         let checkedCategories = [];
         let checkedBrands = [];
-        let checkedSizes = [];
+        let checkedCertifications = [];
+        // let checkedSizes = [];
         let minPrice = 0;
         let maxPrice = 0;
 
@@ -254,11 +276,9 @@
             }
         });
 
-        $(".check-size").click(function () {
-            $(this).toggleClass('size-choose');
-
-            checkedSizes = $(".check-size.size-choose").map(function () {
-                return $(this).data("id");
+        $(".check-certification").change(function () {
+            checkedCertifications = $(".check-certification:checked").map(function () {
+                return $(this).val();
             }).get();
 
             if (!$(this).hasClass('checkbox-mobile')) {
@@ -266,6 +286,18 @@
                 searchProduct();
             }
         });
+        // $(".check-size").click(function () {
+        //     $(this).toggleClass('size-choose');
+        //
+        //     checkedSizes = $(".check-size.size-choose").map(function () {
+        //         return $(this).data("id");
+        //     }).get();
+        //
+        //     if (!$(this).hasClass('checkbox-mobile')) {
+        //         currentPage = 1;
+        //         searchProduct();
+        //     }
+        // });
 
         $('#apply-price-web').click(function () {
             minPrice = parseInt($('.price-input#from-price').val());
@@ -304,7 +336,8 @@
         })
 
         function searchProduct() {
-            if (checkedSizes.length > 0 || checkedBrands.length > 0 || checkedCategories.length > 0 || minPrice > 0 || maxPrice > 0) {
+            // if (checkedSizes.length > 0 || checkedBrands.length > 0 || checkedCategories.length > 0 || minPrice > 0 || maxPrice > 0) {
+            if (checkedCertifications.length > 0 || checkedBrands.length > 0 || checkedCategories.length > 0 || minPrice > 0 || maxPrice > 0) {
                 $('.clear-filter')
                     .removeAttr('disabled');
             } else {
@@ -312,6 +345,9 @@
                     .attr('disabled', 'disabled');
             }
 
+            if (checkedCertifications.length == 0) {
+                checkedCertifications = certificationIds;
+            }
             if (checkedBrands.length == 0) {
                 checkedBrands = brandIds;
             }
@@ -324,7 +360,8 @@
             req = {
                 brands: checkedBrands,
                 categories: checkedCategories,
-                sizes: checkedSizes,
+                certifications: checkedCertifications,
+                // sizes: checkedSizes,
                 min_price: minPrice,
                 max_price: maxPrice,
                 page: currentPage
@@ -410,7 +447,8 @@
             });
 
             $(".clear-filter").click(function () {
-                checkedSizes = [];
+                // checkedSizes = [];
+                checkedCertifications = [];
                 checkedBrands = [];
                 checkedCategories = [];
                 minPrice = 0;
@@ -419,7 +457,7 @@
                 searchProduct();
 
                 $('.filter-bar input').prop('checked', false);
-                $('.size .item').removeClass('size-choose');
+                // $('.size .item').removeClass('size-choose');
                 $('.price-input').val('');
                 $('.price-input.small').val('');
                 $('.apply-price:not(.small)').attr('disabled', 'disabled');

@@ -126,7 +126,7 @@ import java.util.List;
                 "INNER JOIN product_category " +
                 "ON product.id = product_category.product_id " +
                 "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
-                "AND product.price > ?3 AND product.price < ?4) as d " +
+                "AND product.sale_price > ?3 AND product.sale_price < ?4) as d " +
                 "INNER JOIN product_size " +
                 "ON product_size.product_id = d.id " +
                 "WHERE product_size.size IN (?5) " +
@@ -144,7 +144,7 @@ import java.util.List;
                 "ON product.id = product_certification.product_id " +
                 "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
                 "AND product_certification.certification_id IN (?3)" +
-                "AND product.price > ?4 AND product.price < ?5 " +
+                "AND product.sale_price >= ?4 AND product.sale_price <= ?5 " +
                 "AND product.expiry >= NOW() " +
                 "LIMIT ?6 " +
                 "OFFSET ?7"
@@ -158,7 +158,11 @@ import java.util.List;
                 "ON p.id = pc.product_id " +
                 "INNER JOIN category c " +
                 "ON c.id = pc.category_id " +
-                "WHERE p.status = 1 AND (p.name LIKE CONCAT('%',:keyword,'%') OR c.name LIKE CONCAT('%',:keyword,'%')) " +
+                "INNER JOIN product_certification p_ce " +
+                "ON p.id = p_ce.product_id " +
+                "INNER JOIN certification ce " +
+                "ON ce.id = p_ce.certification_id " +
+                "WHERE p.status = 1 AND (p.name LIKE CONCAT('%',:keyword,'%') OR c.name LIKE CONCAT('%',:keyword,'%') OR ce.name LIKE CONCAT('%',:keyword,'%')) " +
                 "LIMIT :limit " +
                 "OFFSET :offset "
 )

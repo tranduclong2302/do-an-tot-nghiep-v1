@@ -19,9 +19,9 @@ public class ProductInfoDTO {
 
     private long promotionPrice;
 
-    private String dateOfManufacture; //ngày sản xuất
-
-    private String expiry; //hạn sử dụng
+//    private String dateOfManufacture; //ngày sản xuất
+//
+//    private String expiry; //hạn sử dụng
 
     public ProductInfoDTO(String id, String name, String slug, long price, int views, String images, int totalSold) {
         this.id = id;

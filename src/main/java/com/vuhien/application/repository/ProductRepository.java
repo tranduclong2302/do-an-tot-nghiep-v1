@@ -114,7 +114,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "INNER JOIN product_category " +
             "ON product.id = product_category.product_id " +
             "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
-            "AND product.price > ?3 AND product.price < ?4) as d " +
+            "AND product.sale_price > ?3 AND product.sale_price < ?4) as d " +
             "INNER JOIN product_size " +
             "ON product_size.product_id = d.id " +
             "WHERE product_size.size IN (?5)")
@@ -133,7 +133,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "ON product.id = product_certification.product_id " +
             "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
             "AND product_certification.certification_id IN (?3)" +
-            "AND product.price > ?4 AND product.price < ?5 ")
+            "AND product.sale_price >= ?4 AND product.sale_price <= ?5 ")
     int countProductAllSize(List<Long> brands, List<Long> categories,List<Long> certifications,long minPrice, long maxPrice);
 
     //Tìm kiến sản phẩm theo tên và tên danh mục
@@ -147,7 +147,11 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "ON product.id = product_category.product_id " +
             "INNER JOIN category " +
             "ON category.id = product_category.category_id " +
-            "WHERE product.status = true AND (product.name LIKE CONCAT('%',:keyword,'%') OR category.name LIKE CONCAT('%',:keyword,'%')) ")
+            "INNER JOIN product_certification " +
+            "ON product.id = product_certification.product_id " +
+            "INNER JOIN certification " +
+            "ON certification.id = product_certification.certification_id " +
+            "WHERE product.status = true AND (product.name LIKE CONCAT('%',:keyword,'%') OR category.name LIKE CONCAT('%',:keyword,'%') OR certification.name LIKE CONCAT('%',:keyword,'%')) ")
     int countProductByKeyword(@Param("keyword") String keyword);
 
     @Query(name = "getProductOrders",nativeQuery = true)
