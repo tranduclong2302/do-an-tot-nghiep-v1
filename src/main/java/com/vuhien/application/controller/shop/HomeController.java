@@ -97,25 +97,22 @@ public class HomeController {
         List<Brand> brands = brandService.getListBrand();
         model.addAttribute("brands",brands);
 
-        // Lấy size có sẵn
-        List<Integer> availableSizes = productService.getListAvailableSize(id);
-        model.addAttribute("availableSizes", availableSizes);
-        if (!availableSizes.isEmpty()) {
+        //Lấy danh sách nhãn hiệu
+        List<Certification> certifications = certificationService.getListCertification();
+        model.addAttribute("certifications",certifications);
+
+        if (product.getQuantity() > 0) {
             model.addAttribute("canBuy", true);
         } else {
             model.addAttribute("canBuy", false);
         }
 
-        //Lấy danh sách size giầy
-        model.addAttribute("sizeVn", SIZE_VN);
-//        model.addAttribute("sizeUs", SIZE_US);
-//        model.addAttribute("sizeCm", SIZE_CM);
-
         return "shop/detail";
     }
 
     @GetMapping("/dat-hang")
-    public String getCartPage(Model model, @RequestParam String id,@RequestParam int size){
+//    public String getCartPage(Model model, @RequestParam String id,@RequestParam int size){
+    public String getCartPage(Model model, @RequestParam String id){
 
         //Lấy chi tiết sản phẩm
         DetailProductInfoDTO product;
@@ -129,27 +126,27 @@ public class HomeController {
         model.addAttribute("product", product);
 
         //Validate size
-        if (size < 35 || size > 42) {
-            return "error/404";
-        }
+//        if (size < 35 || size > 42) {
+//            return "error/404";
+//        }
 
         //Lấy danh sách size có sẵn
-        List<Integer> availableSizes = productService.getListAvailableSize(id);
-        model.addAttribute("availableSizes", availableSizes);
-        boolean notFoundSize = true;
-        for (Integer availableSize : availableSizes) {
-            if (availableSize == size) {
-                notFoundSize = false;
-                break;
-            }
-        }
-        model.addAttribute("notFoundSize", notFoundSize);
+//        List<Integer> availableSizes = productService.getListAvailableSize(id);
+//        model.addAttribute("availableSizes", availableSizes);
+//        boolean notFoundSize = true;
+//        for (Integer availableSize : availableSizes) {
+//            if (availableSize == size) {
+//                notFoundSize = false;
+//                break;
+//            }
+//        }
+//        model.addAttribute("notFoundSize", notFoundSize);
 
         //Lấy danh sách size
-        model.addAttribute("sizeVn", SIZE_VN);
+//        model.addAttribute("sizeVn", SIZE_VN);
 //        model.addAttribute("sizeUs", SIZE_US);
 //        model.addAttribute("sizeCm", SIZE_CM);
-        model.addAttribute("size", size);
+//        model.addAttribute("size", size);
 
         return "shop/payment";
     }

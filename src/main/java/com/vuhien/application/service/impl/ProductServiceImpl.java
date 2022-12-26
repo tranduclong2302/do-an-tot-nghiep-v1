@@ -295,6 +295,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setFeedbackImages(product.getImageFeedBack());
         dto.setProductImages(product.getImages());
         dto.setComments(product.getComments());
+        dto.setQuantity(product.getQuantity());
 
         //Cộng sản phẩm xem
         product.setView(product.getView() + 1);
