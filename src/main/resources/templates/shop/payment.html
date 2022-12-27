@@ -145,99 +145,53 @@
 
 
         let price = [[${product.price}]];
+        console.log(price);
 
         let promotionValue = 0;
         let quantityOrder =parseInt($('#quantity_order').val());
-        console.log(quantityOrder)
         let totalPrice = price * quantityOrder;
+        console.log(totalPrice);
+
 
         if ([[${product.couponCode}]] != null && [[${product.couponCode}]] != "") {
-            totalPrice = totalPrice - [[${product.promotionPrice}]] * quantityOrder;
-            console.log([[${product.promotionPrice}]]);
-            promotionValue = price * quantityOrder - totalPrice;
+            promotionValue = totalPrice * quantityOrder - [[${product.promotionPrice}]] * quantityOrder ;
+            totalPrice = totalPrice - promotionValue;
+
         }
-        console.log(totalPrice);
         $('#in-total-price').val(totalPrice);
         $('#in-promotion-value').val(promotionValue);
 
-        // $('#quantity_order').keyup(function (){
-        //     cal();
-        // })
-        //
-        // function cal(){
-        //     let price = [[${product.price}]];
-        //
-        //     let promotionValue = 0;
-        //     let quantityOrder =parseInt($('quantity_order').val());
-        //     let totalPrice = price * quantityOrder;
-        //     if ([[${product.couponCode}]] != null && [[${product.couponCode}]] != "") {
-        //         totalPrice = totalPrice - [[${product.promotionPrice}]] * quantityOrder;
-        //         promotionValue = price * quantityOrder - totalPrice;
-        //     }
-        //     $('#in-total-price').val(totalPrice);
-        //     $('#in-promotion-value').val(promotionValue);
-        // }
+        $('#quantity_order').keyup(function (){
+            cal();
+        })
+
+        function cal(){
+            let price = [[${product.price}]];
+            let promotionValue = 0;
+            let quantityOrder =parseInt($('#quantity_order').val());
+            let totalPrice = price * quantityOrder;
+            console.log(totalPrice);
+
+
+            if ([[${product.couponCode}]] != null && [[${product.couponCode}]] != "") {
+                promotionValue = totalPrice- [[${product.promotionPrice}]] * quantityOrder;
+                console.log(promotionValue);
+                // promotionValue = promotionValue * quantityOrder;
+                // console.log(promotionValue);
+                totalPrice = totalPrice  * quantityOrder - promotionValue;
+                console.log(totalPrice);
+            }
+            $('#in-total-price').val(totalPrice);
+            $('#in-promotion-value').val(promotionValue);
+        }
 
         let couponCode = [[${product.couponCode}]];
 
-        // let sizeVn = [[${sizeVn}]];
-        //
-        // let sizeUs = [[${sizeUs}]];
-        //
-        // let sizeCm = [[${sizeCm}]];
 
         $(function () {
             formatMoney();
-            // render();
-            // activeSize();
-            // sizeGuideRender();
         });
 
-        // function render() {
-        //     for (let i = 0; i < sizeVn.length; i++) {
-        //         let sizeChoose = `
-        //     <div class="item" data-size="${sizeUs[i]}US | ${sizeVn[i]}VN | ${sizeCm[i]}CM" data-id="${sizeVn[i]}">
-        //         ${sizeVn[i]}
-        //     </div>
-        //     `;
-        //
-        //         $('.size .select-filter').append(sizeChoose);
-        //     };
-        // };
-
-        // function sizeGuideRender() {
-        //     let tr = '';
-        //     for (let i = 0; i < sizeVn.length; i++) {
-        //         tr += `
-        //     <tr>
-        //       <td>${sizeVn[i]}</td>
-        //       <td>${sizeUs[i]}</td>
-        //       <td>${sizeCm[i]}</td>
-        //     </tr>
-        //     `;
-        //     }
-        //     $('.side-guide-table tbody').html(tr);
-        // }
-
-        // function activeSize() {
-        //     let availableSizes = [[${availableSizes}]]
-        //
-        //     for (let i = 0; i < sizeVn.length; i++) {
-        //         if (sizeVn[i] == [[${size}]]) {
-        //             $('.size-details').text(sizeUs[i] + "US | " + sizeVn[i] + "VN | " + sizeCm[i] + "CM")
-        //             break;
-        //         }
-        //     }
-        //
-        //     $('.size .item').addClass('cross')
-        //     if (![[${notFoundSize}]]) {
-        //         $(`.item[data-size='${$('.size-details').text()}']`).addClass('size-choose').removeClass('cross');
-        //     }
-        //
-        //     for (let i = 0; i < availableSizes.length; i++) {
-        //         $(`.item[data-id='${availableSizes[i]}']`).removeClass('cross');
-        //     }
-        // }
         $('#btn-apply-coupon').click(function() {
             let coupon = $('#in-coupon').val();
             if (coupon == "") {
