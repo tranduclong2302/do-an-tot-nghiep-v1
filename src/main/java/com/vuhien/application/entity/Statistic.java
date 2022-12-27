@@ -51,7 +51,7 @@ public class Statistic {
     @Column(name = "profit")
     private long profit;
     @Column(name = "quantity")
-    private int quantity;
+    private Long quantity;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;

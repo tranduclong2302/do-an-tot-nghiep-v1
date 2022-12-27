@@ -403,7 +403,7 @@
                 if (quantity == 0){
                     toastr.warning("Sản phẩm tạm hết hàng. Vui lòng đặt hàng sau.");
                 }else {
-                    location.href = "/gio-hang";
+                    location.href = "/gio-hang/add/"+[[${product.id}]];
                 }
             } else {
                 toastr.warning("Vui lòng đăng nhập để đặt hàng");

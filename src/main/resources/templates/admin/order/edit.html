@@ -141,7 +141,7 @@
                                                     <thead>
                                                     <tr>
                                                         <th>Sản phẩm</th>
-                                                        <th>Kích cỡ</th>
+                                                        <th>Số lượng</th>
                                                         <th>Giá tiền</th>
                                                         <th>Khuyến mãi</th>
                                                         <th>Mức giảm</th>
@@ -154,7 +154,7 @@
                                                             <a target="_blank" th:href="@{/admin/products/{slug}/{id}(id=${order.product.id}, slug=${order.product.slug})}" th:text="${order.product.name}"></a>
                                                         </td>
                                                         <td>
-                                                            <span th:text="${order.size}"></span>
+                                                            <span th:text="${order.quantity}"></span>
                                                             <th:block th:if="${order.status} == 1">
                                                                 <span th:if="${sizeIsAvailable} == false" class="badge badge-danger">Hết hàng</span>
                                                             </th:block>
@@ -233,7 +233,7 @@
                             <select class="form-control" id="size">
 
                             </select>
-                            <span class="invalid-feedback" id="invalid-feedback-product">Sản phẩm đã hết size</span>
+                            <span class="invalid-feedback" id="invalid-feedback-product">Sản phẩm đã hết</span>
                         </div>
                         <div class="form-group">
                             <label for="size">Khuyến mãi</label>
@@ -290,22 +290,23 @@
 
             function eventChangeProduct() {
                 let idProduct = $('#product').val();
-                let sizes = [];
+                // let sizes = [];
+                let quantity = 0;
                 for (product of products) {
                     if (product.id == idProduct) {
                         if (product.availableSizes != null) {
-                            sizes = product.availableSizes;
+                            quantity = product.availableSizes;
                         }
                         productPrice = product.price;
-                        totalPrice = product.price;
+                        totalPrice = product.price * quantity;
                         break;
                     }
                 }
 
-                $('#size').empty();
-                for (size of sizes) {
-                    $("#size").append(new Option(size, size));
-                }
+                // $('#size').empty();
+                // for (size of sizes) {
+                //     $("#size").append(new Option(size, size));
+                // }
 
                 calculatePrice();
             }
@@ -356,22 +357,22 @@
                     $('#promotion').val(promotion.couponCode);
                 }
                 eventChangeProduct();
-                $('#size').val([[${order.size}]]);
+                $('#quantity').val([[${order.quantity}]]);
                 $('#modal-change-detail-order').modal('show');
             }
 
             function changeDetailOrder() {
                 let product = $('#product').val();
-                let size = $('#size').val();
+                let quantity = $('#quantity').val();
                 let promotion = $('#promotion').val();
-                if (size == null || size == "") {
+                if (quantity === 0) {
                     $('#invalid-feedback-product').show();
                     return;
                 }
 
                 req = {
                     product_id: product,
-                    size: parseInt(size),
+                    quantity: parseInt(quantity),
                     coupon_code: promotion,
                     total_price: totalPrice,
                     product_price: productPrice

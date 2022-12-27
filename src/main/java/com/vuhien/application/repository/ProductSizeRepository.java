@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface ProductSizeRepository extends JpaRepository<ProductSize,Long> {
@@ -20,8 +19,8 @@ public interface ProductSizeRepository extends JpaRepository<ProductSize,Long> {
     List<ProductSize> findByProductId(String id);
 
     //Kiểm trả size sản phẩm
-    @Query(value = "SELECT * FROM product_size WHERE product_id = ?1 AND size = ?2 AND quantity >0", nativeQuery = true)
-    ProductSize checkProductAndSizeAvailable(String id, int size);
+//    @Query(value = "SELECT * FROM product_size WHERE product_id = ?1 AND quantity >0", nativeQuery = true)
+//    ProductSize checkProductAndSizeAvailable(String id);
 
     //Trừ 1 sản phẩm theo size
     @Transactional

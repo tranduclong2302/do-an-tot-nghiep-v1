@@ -75,15 +75,14 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="size">Kích cỡ</label>
-                                            <select class="form-control" id="size">
-
-                                            </select>
+                                            <label for="quantity_order">Số lượng</label>
+                                            <input min="1" value="1" type="number" class="form-control" th:text="${quantity_order}" name="quantity_order" id="quantity_order" required/>
+                                            <span class="invalid-feedback" id="invalid-feedback-quantity">Số lượng sản phẩm phải lớn hơn 0 </span>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="size">Khuyến mãi</label>
+                                            <label for="promotion">Khuyến mãi</label>
                                             <select class="form-control" id="promotion">
                                                 <option value="">Chọn khuyến mãi</option>
                                                 <th:block th:each="promotion : ${promotions}">
@@ -190,6 +189,10 @@
             eventChangeProduct();
         });
 
+        $('#quantity_order').keyup(function () {
+            eventChangeProduct();
+        });
+
         function eventChangeProduct() {
             let idProduct = $('#product').val();
             let sizes = [];
@@ -218,6 +221,7 @@
 
         function calculatePrice() {
             let codePromotion = $('#promotion').val();
+            let quantityOrder = parseInt($('#quantity_order').val());
             if (codePromotion.length > 0) {
                 for (promotion of promotions) {
                     if (promotion.couponCode === codePromotion) {
@@ -229,7 +233,7 @@
                         } else {
                             promotionPrice = promotion.discountValue;
                         }
-                        totalPrice = productPrice - promotionPrice;
+                        totalPrice = (productPrice - promotionPrice) * quantityOrder;
                         if (totalPrice < 0) {
                             totalPrice = 0;
                         }
@@ -237,7 +241,7 @@
                     }
                 }
             } else {
-                totalPrice = productPrice;
+                totalPrice = productPrice * quantityOrder;
             }
 
             $('#product-price').text(productPrice);
@@ -254,7 +258,7 @@
             let receiverAddress = $('#receiver-address').val();
             let note = $('#receiver-note').val();
             let product = $('#product').val();
-            let size = $('#size').val();
+            let quantityOrder = $('#quantity_order').val();
             let promotion = $('#promotion').val();
             let isValid = true;
 
@@ -270,15 +274,15 @@
                 $('#invalid-feedback-address').show();
                 isValid = false;
             }
-            if (size == null) {
-                $('#invalid-feedback-product').show();
+            if (parseInt(quantityOrder) < 1) {
+                $('#invalid-feedback-quantity').show();
                 isValid = false;
             }
 
             if (isValid) {
                 req = {
                     product_id: product,
-                    size: parseInt(size),
+                    quantity_order: parseInt(quantityOrder),
                     receiver_name: receiverName,
                     receiver_phone: receiverPhone,
                     receiver_address: receiverAddress,

@@ -71,7 +71,7 @@ public interface ProductService {
     List<ShortProductInfoDTO> getAvailableProducts();
 
     //Check size sản phẩm
-    boolean checkProductSizeAvailable(String id, int size);
+    boolean checkProductSizeAvailable(String id);
 
     //Kiểm tra sản phẩm có khuyến mại
     List<ProductInfoDTO> checkPublicPromotion(List<ProductInfoDTO> products);

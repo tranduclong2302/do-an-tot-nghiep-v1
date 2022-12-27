@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-<head>
-<body>
-  <div th:fragment="quantity_control(qtyValue, productId)">
-    <nav>
+<th:block th:fragment="quantity_control(qtyValue, productId)">
+  <nav>
       <ul class="pagination">
         <li class="page-item">
           <a class="page-Link minusButton" href="" th:pid="${productId}"><b>-</b></a>
@@ -16,7 +12,5 @@
           <a class="page-Link plusButton" href="" th:pid="${productId}"><b>+</b></a>
         </li>
       </ul>
-    </nav>
-  </div>
-</body>
-</html>
+  </nav>
+</th:block>

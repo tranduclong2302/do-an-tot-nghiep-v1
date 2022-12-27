@@ -32,7 +32,6 @@
                 <div class="break-line"></div>
                 <div class="nav-sidebar">
                     <a class="account nav-item" href="/tai-khoan">Quản lý tài khoản</a>
-                    <a class="nav-item" href="/tai-khoan/quan-ly-gio-hang">Quản lý giỏ hàng</a>
                     <a class="buying-order nav-item" href="/tai-khoan/lich-su-giao-dich">Quản lý đơn hàng</a>
                     <a class="btn btn-primary red-btn sign-out-btn" href="/api/logout">Đăng xuất</a>
                 </div>
@@ -51,7 +50,7 @@
                     <div class="product-info-wrapper">
                         <div class="thumbnails"><img class="img-fluid" th:src="${order.productImg}" th:alt="${order.productName}"/></div>
                         <div class="product-info"><span class="name" th:text="${order.productName}"></span>
-                            <div class="size"><span th:text="${order.sizeUs}"></span>US | <span th:text="${order.sizeVn}"></span>VN | <span th:text="${order.sizeCm}"></span>CM</div>
+                            <div class="quantity">Số lượng sản phẩm: <span th:text="${order.quantityOrder}"></span></div>
                         </div>
                     </div>
                     <div class="price asks-price"><span class="text-price" th:text="${order.productPrice}"></span> &#x20AB;</div>
@@ -63,8 +62,8 @@
                             <div class="phone" th:text="${order.receiverPhone}"></div>
                         </div>
                         <div class="price-wrapper">
-                            <div class="sub-price-wrapper price">Tạm tính<span><span class="text-price" th:text="${order.productPrice}"></span> &#x20AB;</span></div>
-                            <div class="shipping-price-wrapper price">Khuyến mãi<span><span class="text-price" th:text="${order.productPrice} - ${order.totalPrice}"></span> &#x20AB;</span></div>
+                            <div class="sub-price-wrapper price">Tạm tính<span><span class="text-price" th:text="${order.productPrice} * ${order.quantityOrder}"></span> &#x20AB;</span></div>
+                            <div class="shipping-price-wrapper price">Khuyến mãi<span><span class="text-price" th:text="${order.productPrice}*${order.quantityOrder} - ${order.totalPrice}"></span> &#x20AB;</span></div>
                             <div class="total-price-wrapper price">Thành tiền<span class="total-price"><span class="text-price" th:text="${order.totalPrice}"></span> &#x20AB;</span></div>
                         </div>
                     </div>
@@ -75,7 +74,7 @@
                     <div class="item-info-wrapper">
                         <div class="product-info-wrapper">
                             <div class="product-info"><span class="name" th:text="${order.productName}"></span>
-                                <div class="size"><span th:text="${order.sizeUs}"></span>US | <span th:text="${order.sizeVn}"></span>VN | <span th:text="${order.sizeCm}"></span>CM</div>
+                                <div class="quantity"><span th:text="${order.quantityOrder}"></span></div>
                             </div>
                         </div>
                         <div class="price asks-price"><span class="text-price" th:text="${order.productPrice}"></span> &#x20AB;</div>
@@ -88,7 +87,7 @@
                             </div>
                             <div class="price-wrapper">
                                 <div class="sub-price-wrapper price">Tạm tính<span><span class="text-price" th:text="${order.productPrice}"></span> &#x20AB;</span></div>
-                                <div class="shipping-price-wrapper price">Khuyến mãi<span><span class="text-price" th:text="${order.productPrice} - ${order.totalPrice}"></span> &#x20AB;</span></div>
+                                <div class="shipping-price-wrapper price">Khuyến mãi<span><span class="text-price" th:text="${order.productPrice}*${order.quantityOrder} - ${order.totalPrice}"></span> &#x20AB;</span></div>
                                 <div class="total-price-wrapper price">Thành tiền<span class="total-price"><span class="text-price" th:text="${order.totalPrice}"></span> &#x20AB;</span></div>
                             </div>
                         </div>

@@ -17,7 +17,7 @@ import java.util.Map;
 @Component
 public class CartItemServiceImpl implements CartItemServiceService {
 
-    private Map<Long, CartItem> map = new HashMap<Long, CartItem>();
+    private Map<Long, CartItem> map = new HashMap<>();
     @Autowired
     private CartItemRepository cartItemRepository;
 
@@ -86,6 +86,9 @@ public class CartItemServiceImpl implements CartItemServiceService {
 
     @Override
     public int getSize() {
+        if (map.isEmpty()){
+         return 0;
+        }
         return map.values().size();
     }
 

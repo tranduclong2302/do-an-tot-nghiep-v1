@@ -1,6 +1,7 @@
 package com.vuhien.application.repository;
 
 import com.vuhien.application.entity.Product;
+import com.vuhien.application.entity.ProductSize;
 import com.vuhien.application.model.dto.ChartDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.dto.ShortProductInfoDTO;
@@ -90,17 +91,30 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     @Query(nativeQuery = true, name = "getAllBySizeAvailable")
     List<ShortProductInfoDTO> getAvailableProducts();
 
+    @Query(value = "SELECT * FROM product WHERE id = ?1 AND quantity > 0 ", nativeQuery = true)
+    Product checkProductAndSizeAvailable(String id);
     //Trừ một sản phẩm đã bán
     @Transactional
     @Modifying
-    @Query(value = "UPDATE product SET total_sold = total_sold - 1 WHERE id = ?1", nativeQuery = true)
-    void minusOneProductTotalSold(String productId);
+    @Query(value = "UPDATE product SET total_sold = total_sold - ?1 WHERE id = ?2", nativeQuery = true)
+    void minusProductTotalSold(Long quantity, String productId);
 
     //Cộng một sản phẩm đã bán
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "Update product set total_sold = total_sold + 1 where id = ?1")
-    void plusOneProductTotalSold(String productId);
+    @Query(nativeQuery = true, value = "Update product set total_sold = total_sold + ?1 where id = ?2")
+    void plusProductTotalSold(Long quantity, String productId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE product SET quantity = quantity - ?1 WHERE id = ?2", nativeQuery = true)
+    void minusProduct(Long quantity, String productId);
+
+    //Cộng một sản phẩm đã bán
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "Update product set quantity = quantity + ?1 where id = ?2")
+    void plusProduct(Long quantity, String productId);
 
     //Tìm kiến sản phẩm theo size
     @Query(nativeQuery = true, name = "searchProductBySize")

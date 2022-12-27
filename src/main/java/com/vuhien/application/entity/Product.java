@@ -11,7 +11,6 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +50,7 @@ import java.util.List;
                                         @ColumnResult(name = "id", type = String.class),
                                         @ColumnResult(name = "name", type = String.class),
                                         @ColumnResult(name = "price", type = Long.class),
-                                        @ColumnResult(name = "sizes", type = String.class),
+                                        @ColumnResult(name = "quantity", type = Long.class),
 
                                 }
                         )
@@ -116,9 +115,9 @@ import java.util.List;
 @NamedNativeQuery(
         name = "getAllBySizeAvailable",
         resultSetMapping = "productInfoAndAvailableSize",
-        query = "SELECT p.id, p.name, p.sale_price as price, " +
-                "(SELECT JSON_ARRAYAGG(ps.size) FROM product_size ps WHERE ps.product_id = p.id AND ps.quantity > 0) AS sizes " +
-                "FROM product p"
+        query = "SELECT p.id, p.name, p.sale_price as price, p.quantity as quantity " +
+                "FROM product p "+
+                "WHERE p.quantity > 0 and p.expiry > now() "
 )
 @NamedNativeQuery(
         name = "searchProductBySize",

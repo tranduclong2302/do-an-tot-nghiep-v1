@@ -375,8 +375,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean checkProductSizeAvailable(String id, int size) {
-        ProductSize productSize = productSizeRepository.checkProductAndSizeAvailable(id, size);
+    public boolean checkProductSizeAvailable(String id) {
+        Product productSize = productRepository.checkProductAndSizeAvailable(id);
         if (productSize != null) {
             return true;
         }

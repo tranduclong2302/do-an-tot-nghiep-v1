@@ -17,9 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -36,8 +35,8 @@ public class ShoppingCartController {
     @GetMapping("/gio-hang")
     public String showShoppingCart(Model model){
         User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        List<CartItem> listCartItems = cartItemServiceService.listCartItems(user);
-
+//        List<CartItem> listCartItems = cartItemServiceService.listCartItems(user);
+        Collection<CartItem> listCartItems = cartItemServiceService.getCartItems();
         model.addAttribute("listCartItems", listCartItems);
 
         return "shop/shopping_cart_v1";
@@ -61,12 +60,12 @@ public class ShoppingCartController {
 //
 //        return addedQuantity + "sản phẩm đã được thêm vào giỏ hàng!";
 //    }
-    @GetMapping("add/{productId}")
+    @GetMapping("gio-hang/add/{productId}")
     public String add(@PathVariable("productId") String productId,
                       @AuthenticationPrincipal Authentication authentication){
-        if (authentication == null || authentication instanceof AnonymousAuthenticationToken){
-            return "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!";
-        }
+//        if (authentication == null || authentication instanceof AnonymousAuthenticationToken){
+//            return "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!";
+//        }
 
         User user = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
@@ -80,6 +79,6 @@ public class ShoppingCartController {
             BeanUtils.copyProperties(product, item);
             cartItemServiceService.add(item);
         }
-        return "";
+        return "shop/shopping_cart_v1";
     }
 }

@@ -17,10 +17,10 @@ public class CreateOrderRequest {
     @NotBlank(message = "Sản phẩm trống")
     @JsonProperty("product_id")
     private String productId;
-
-    @Min(value = 35)
-    @Max(value = 42)
-    private int size;
+//
+//    @Min(value = 35)
+//    @Max(value = 42)
+//    private int size;
 
     @NotBlank(message = "Họ tên trống")
     @JsonProperty("receiver_name")
@@ -37,6 +37,9 @@ public class CreateOrderRequest {
 
     @JsonProperty("coupon_code")
     private String couponCode;
+
+    @JsonProperty("quantity_order")
+    private Long quantityOrder;
 
     @JsonProperty("total_price")
     private long totalPrice;

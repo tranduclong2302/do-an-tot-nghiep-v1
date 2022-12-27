@@ -17,24 +17,26 @@ public class ShortProductInfoDTO {
 
     private long price;
 
-    List<Integer> availableSizes;
+//    List<Integer> availableSizes;
+    private Long quantity;
 
     public ShortProductInfoDTO(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public ShortProductInfoDTO(String id, String name, long price, Object availableSizes) {
+    public ShortProductInfoDTO(String id, String name, long price, Long quantity) {
         this.id = id;
         this.name = name;
         this.price = price;
-        if (availableSizes != null) {
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                this.availableSizes = mapper.readValue((String) availableSizes, new TypeReference<List<Integer>>(){});
-            } catch (IOException e) {
-                this.availableSizes = null;
-            }
-        }
+        this.quantity = quantity;
+//        if (availableSizes != null) {
+//            ObjectMapper mapper = new ObjectMapper();
+//            try {
+//                this.availableSizes = mapper.readValue((String) availableSizes, new TypeReference<List<Integer>>(){});
+//            } catch (IOException e) {
+//                this.availableSizes = null;
+//            }
+//        }
     }
 }

@@ -6,7 +6,7 @@ import com.vuhien.application.entity.User;
 import com.vuhien.application.exception.BadRequestException;
 import com.vuhien.application.model.dto.OrderDetailDTO;
 import com.vuhien.application.model.dto.OrderInfoDTO;
-import com.vuhien.application.model.dto.    ShortProductInfoDTO;
+import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import com.vuhien.application.model.request.CreateOrderRequest;
 import com.vuhien.application.model.request.UpdateDetailOrder;
 import com.vuhien.application.model.request.UpdateStatusOrderRequest;
@@ -112,9 +112,9 @@ public class OrderController {
                 }
             }
 
-            // Check size available
-//            boolean sizeIsAvailable = productService.checkProductSizeAvailable(order.getProduct().getId(), order.getSize());
-//            model.addAttribute("sizeIsAvailable", sizeIsAvailable);
+//             Check số lượng available
+            boolean sizeIsAvailable = productService.checkProductSizeAvailable(order.getProduct().getId());
+            model.addAttribute("sizeIsAvailable", sizeIsAvailable);
         }
 
         return "admin/order/edit";
@@ -139,7 +139,7 @@ public class OrderController {
 
         //Get list order pending
         User user =((CustomUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
-        List<OrderInfoDTO> orderList = orderService.getListOrderOfPersonByStatus(ORDER_STATUS,user.getId());
+        List<OrderInfoDTO> orderList = orderService.getListOrderOfPersonByStatus(ORDER_STATUS, user.getId());
         model.addAttribute("orderList",orderList);
 
         return "shop/order_history";
