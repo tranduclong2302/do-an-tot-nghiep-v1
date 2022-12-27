@@ -109,20 +109,27 @@ public class ProductServiceImpl implements ProductService {
         //Kiểm tra tên sản phẩm trùng
         Product product = productRepository.findByName(createProductRequest.getName());
         if (product != null) {
-            throw new BadRequestException("Tên sản phẩm đã tồn tại trong hệ thống, Vui lòng chọn tên khác!");
-        }
+//            throw new BadRequestException("Tên sản phẩm đã tồn tại trong hệ thống, Vui lòng chọn tên khác!");
+            product.setQuantity(product.getQuantity() + createProductRequest.getQuantity());
+            product.setModifiedAt(new Timestamp(System.currentTimeMillis()));
+            try {
+                productRepository.save(product);
+            } catch (Exception ex) {
+                throw new InternalServerException("Lỗi khi thêm sản phẩm");
+            }
+        }else {
+            product = ProductMapper.toProduct(createProductRequest);
+            //Sinh id
+            String id = RandomStringUtils.randomAlphanumeric(6);
+            product.setId(id);
+            product.setTotalSold(0);
+            product.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
-        product = ProductMapper.toProduct(createProductRequest);
-        //Sinh id
-        String id = RandomStringUtils.randomAlphanumeric(6);
-        product.setId(id);
-        product.setTotalSold(0);
-        product.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-
-        try {
-            productRepository.save(product);
-        } catch (Exception ex) {
-            throw new InternalServerException("Lỗi khi thêm sản phẩm");
+            try {
+                productRepository.save(product);
+            } catch (Exception ex) {
+                throw new InternalServerException("Lỗi khi thêm sản phẩm");
+            }
         }
         return product;
     }
