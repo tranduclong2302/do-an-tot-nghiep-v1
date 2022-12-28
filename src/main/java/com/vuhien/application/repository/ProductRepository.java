@@ -1,7 +1,7 @@
 package com.vuhien.application.repository;
 
 import com.vuhien.application.entity.Product;
-import com.vuhien.application.entity.ProductSize;
+//import com.vuhien.application.entity.ProductSize;
 import com.vuhien.application.model.dto.ChartDTO;
 import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.dto.ShortProductInfoDTO;
@@ -117,22 +117,22 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     void plusProduct(Long quantity, String productId);
 
     //Tìm kiến sản phẩm theo size
-    @Query(nativeQuery = true, name = "searchProductBySize")
-    List<ProductInfoDTO> searchProductBySize(List<Long> brands, List<Long> categories, long minPrice, long maxPrice, List<Integer> sizes, int limit, int offset);
+//    @Query(nativeQuery = true, name = "searchProductBySize")
+//    List<ProductInfoDTO> searchProductBySize(List<Long> brands, List<Long> categories, long minPrice, long maxPrice, List<Integer> sizes, int limit, int offset);
 
     //Đếm số sản phẩm
-    @Query(nativeQuery = true, value = "SELECT COUNT(DISTINCT d.id) " +
-            "FROM (" +
-            "SELECT DISTINCT product.id " +
-            "FROM product " +
-            "INNER JOIN product_category " +
-            "ON product.id = product_category.product_id " +
-            "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
-            "AND product.sale_price > ?3 AND product.sale_price < ?4) as d " +
-            "INNER JOIN product_size " +
-            "ON product_size.product_id = d.id " +
-            "WHERE product_size.size IN (?5)")
-    int countProductBySize(List<Long> brands, List<Long> categories, long minPrice, long maxPrice, List<Integer> sizes);
+//    @Query(nativeQuery = true, value = "SELECT COUNT(DISTINCT d.id) " +
+//            "FROM (" +
+//            "SELECT DISTINCT product.id " +
+//            "FROM product " +
+//            "INNER JOIN product_category " +
+//            "ON product.id = product_category.product_id " +
+//            "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
+//            "AND product.sale_price > ?3 AND product.sale_price < ?4) as d " +
+//            "INNER JOIN product_size " +
+//            "ON product_size.product_id = d.id " +
+//            "WHERE product_size.size IN (?5)")
+//    int countProductBySize(List<Long> brands, List<Long> categories, long minPrice, long maxPrice, List<Integer> sizes);
 
     //Tìm kiến sản phẩm k theo size
     @Query(nativeQuery = true, name = "searchProductAllSize")

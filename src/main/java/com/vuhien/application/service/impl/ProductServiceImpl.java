@@ -12,12 +12,10 @@ import com.vuhien.application.model.dto.ProductInfoDTO;
 import com.vuhien.application.model.dto.ShortProductInfoDTO;
 import com.vuhien.application.model.mapper.ProductMapper;
 import com.vuhien.application.model.request.CreateProductRequest;
-import com.vuhien.application.model.request.CreateSizeCountRequest;
 import com.vuhien.application.model.request.FilterProductRequest;
 import com.vuhien.application.model.request.UpdateFeedBackRequest;
 import com.vuhien.application.repository.OrderRepository;
 import com.vuhien.application.repository.ProductRepository;
-import com.vuhien.application.repository.ProductSizeRepository;
 import com.vuhien.application.repository.PromotionRepository;
 import com.vuhien.application.service.ProductService;
 import com.vuhien.application.service.PromotionService;
@@ -44,8 +42,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private ProductSizeRepository productSizeRepository;
 
     @Autowired
     private PromotionService promotionService;
@@ -250,9 +246,6 @@ public class ProductServiceImpl implements ProductService {
         }
 
         try {
-            // Delete product size
-            productSizeRepository.deleteByProductId(id);
-
             productRepository.deleteById(id);
         } catch (Exception ex) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -328,47 +321,6 @@ public class ProductServiceImpl implements ProductService {
         }
         List<ProductInfoDTO> products = productRepository.getRelatedProducts(id, LIMIT_PRODUCT_RELATED);
         return checkPublicPromotion(products);
-    }
-
-    @Override
-    public List<Integer> getListAvailableSize(String id) {
-        return productSizeRepository.findAllSizeOfProduct(id);
-    }
-
-    @Override
-    public void createSizeCount(CreateSizeCountRequest createSizeCountRequest) {
-
-        //Kiểm trả size
-        boolean isValid = false;
-        for (int size : SIZE_VN) {
-            if (size == createSizeCountRequest.getSize()) {
-                isValid = true;
-                break;
-            }
-        }
-        if (!isValid) {
-            throw new BadRequestException("Size không hợp lệ");
-        }
-
-        //Kiểm trả sản phẩm có tồn tại
-        Optional<Product> product = productRepository.findById(createSizeCountRequest.getProductId());
-        if (product.isEmpty()) {
-            throw new NotFoundException("Không tìm thấy sản phẩm trong hệ thống!");
-        }
-
-//        Optional<ProductSize> productSizeOld = productSizeRepository.getProductSizeBySize(createSizeCountRequest.getSize(),createSizeCountRequest.getProductId());
-
-        ProductSize productSize = new ProductSize();
-        productSize.setProductId(createSizeCountRequest.getProductId());
-        productSize.setSize(createSizeCountRequest.getSize());
-        productSize.setQuantity(createSizeCountRequest.getCount());
-
-        productSizeRepository.save(productSize);
-    }
-
-    @Override
-    public List<ProductSize> getListSizeOfProduct(String id) {
-        return productSizeRepository.findByProductId(id);
     }
 
     @Override

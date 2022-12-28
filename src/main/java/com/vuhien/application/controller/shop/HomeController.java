@@ -125,29 +125,6 @@ public class HomeController {
         }
         model.addAttribute("product", product);
 
-        //Validate size
-//        if (size < 35 || size > 42) {
-//            return "error/404";
-//        }
-
-        //Lấy danh sách size có sẵn
-//        List<Integer> availableSizes = productService.getListAvailableSize(id);
-//        model.addAttribute("availableSizes", availableSizes);
-//        boolean notFoundSize = true;
-//        for (Integer availableSize : availableSizes) {
-//            if (availableSize == size) {
-//                notFoundSize = false;
-//                break;
-//            }
-//        }
-//        model.addAttribute("notFoundSize", notFoundSize);
-
-        //Lấy danh sách size
-//        model.addAttribute("sizeVn", SIZE_VN);
-//        model.addAttribute("sizeUs", SIZE_US);
-//        model.addAttribute("sizeCm", SIZE_CM);
-//        model.addAttribute("size", size);
-
         return "shop/payment";
     }
 

@@ -119,23 +119,23 @@ import java.util.List;
                 "FROM product p "+
                 "WHERE p.quantity > 0 and p.expiry > now() "
 )
-@NamedNativeQuery(
-        name = "searchProductBySize",
-        resultSetMapping = "productInfoDto",
-        query = "SELECT DISTINCT d.* " +
-                "FROM (" +
-                "SELECT DISTINCT product.id, product.name, product.slug, product.sale_price as price, product.product_view as views, product.total_sold, product.images ->> '$[0]' AS images " +
-                "FROM product " +
-                "INNER JOIN product_category " +
-                "ON product.id = product_category.product_id " +
-                "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
-                "AND product.sale_price > ?3 AND product.sale_price < ?4) as d " +
-                "INNER JOIN product_size " +
-                "ON product_size.product_id = d.id " +
-                "WHERE product_size.size IN (?5) " +
-                "LIMIT ?6 "+
-                "OFFSET ?7"
-)
+//@NamedNativeQuery(
+//        name = "searchProductBySize",
+//        resultSetMapping = "productInfoDto",
+//        query = "SELECT DISTINCT d.* " +
+//                "FROM (" +
+//                "SELECT DISTINCT product.id, product.name, product.slug, product.sale_price as price, product.product_view as views, product.total_sold, product.images ->> '$[0]' AS images " +
+//                "FROM product " +
+//                "INNER JOIN product_category " +
+//                "ON product.id = product_category.product_id " +
+//                "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
+//                "AND product.sale_price > ?3 AND product.sale_price < ?4) as d " +
+//                "INNER JOIN product_size " +
+//                "ON product_size.product_id = d.id " +
+//                "WHERE product_size.size IN (?5) " +
+//                "LIMIT ?6 "+
+//                "OFFSET ?7"
+//)
 @NamedNativeQuery(
         name = "searchProductAllSize",
         resultSetMapping = "productInfoDto",

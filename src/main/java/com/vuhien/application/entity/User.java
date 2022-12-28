@@ -48,4 +48,8 @@ public class User {
     private Timestamp createdAt;
     @Column(name = "modified_at")
     private Timestamp modifiedAt;
+    @OneToOne(mappedBy = "buyer")
+    private ShoppingCart shoppingCart;
+    @OneToMany(mappedBy = "buyer")
+    private List<Order> orders;
 }

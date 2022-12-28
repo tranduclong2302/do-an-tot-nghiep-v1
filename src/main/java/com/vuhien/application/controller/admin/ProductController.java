@@ -185,8 +185,8 @@ public class ProductController {
         model.addAttribute("sizeVN", SIZE_VN);
 
         //Lấy size của sản phẩm
-        List<ProductSize> productSizes = productService.getListSizeOfProduct(id);
-        model.addAttribute("productSizes", productSizes);
+//        List<ProductSize> productSizes = productService.getListSizeOfProduct(id);
+//        model.addAttribute("productSizes", productSizes);
 
         return "admin/product/edit";
     }
@@ -254,12 +254,12 @@ public class ProductController {
         return ResponseEntity.ok("Xóa sản phẩm thành công!");
     }
 
-    @PutMapping("/api/admin/products/sizes")
-    public ResponseEntity<?> updateSizeCount(@Valid @RequestBody CreateSizeCountRequest createSizeCountRequest) {
-        productService.createSizeCount(createSizeCountRequest);
-
-        return ResponseEntity.ok("Cập nhật thành công!");
-    }
+//    @PutMapping("/api/admin/products/sizes")
+//    public ResponseEntity<?> updateSizeCount(@Valid @RequestBody CreateSizeCountRequest createSizeCountRequest) {
+//        productService.createSizeCount(createSizeCountRequest);
+//
+//        return ResponseEntity.ok("Cập nhật thành công!");
+//    }
 
     @PutMapping("/api/admin/products/{id}/update-feedback-image")
     public ResponseEntity<?> updatefeedBackImages(@PathVariable String id, @Valid @RequestBody UpdateFeedBackRequest req) {

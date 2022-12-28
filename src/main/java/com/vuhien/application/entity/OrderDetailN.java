@@ -1,35 +1,30 @@
 package com.vuhien.application.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
+@AllArgsConstructor
+@Data
 @Entity
-@Table(name = "cart_item")
-public class CartItem {
+@Table(name = "order_detail_n")
+public class OrderDetailN {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_detail_id")
     private Long id;
+
     private Long quantity;
     private double totalPrice;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "shopping_cart_id")
-    private ShoppingCart cart;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", referencedColumnName = "order_id")
+    private OrderN orderN;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
-
-
 }

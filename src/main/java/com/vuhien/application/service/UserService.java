@@ -22,4 +22,6 @@ public interface UserService {
     void changePassword(User user, ChangePasswordRequest changePasswordRequest);
 
     User updateProfile(User user, UpdateProfileRequest updateProfileRequest);
+
+    User findByEmail(String email);
 }

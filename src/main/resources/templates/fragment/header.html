@@ -42,7 +42,7 @@
 <!--                            <li><a href="/" th:text="${brand.name}">Trang chủ</a></li>-->
 <!--                        </th:block>-->
                         <li class="float-right mr-0"><a href="/lien-he" class="px-4">Liên hệ</a></li>
-                        <li class="float-right"><a class="buy-now" href="/gio-hang">Giỏ hàng</span></a></li>
+<!--                        <li class="float-right"><a href="/cart.html">Giỏ hàng</span></a></li>-->
                         <li class="float-right"><a href="/doi-hang">Chính sách</span></a></li>
                         <li class="float-right"><a href="/tin-tuc">Tin tức</a></li>
                         <li class="float-right"><a href="/san-pham">Sản phẩm</a></li>
@@ -50,5 +50,17 @@
                 </nav>
             </div><!-- End .container -->
         </div><!-- End .header-bottom -->
+        <div class="attr-nav">
+            <ul>
+                <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                <li class="side-menu">
+                    <a th:href="@{/cart}">
+                        <i class="fa fa-shopping-bag"></i>
+                        <span class="badge" th:text = "${session.totalItems == null} ? '0' : ${session.totalItems}"></span>
+                        <p>My Cart</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </header><!-- End .header -->
 </th:block>

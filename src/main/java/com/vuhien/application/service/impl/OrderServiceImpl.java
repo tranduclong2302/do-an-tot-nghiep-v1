@@ -12,7 +12,6 @@ import com.vuhien.application.model.request.UpdateDetailOrder;
 import com.vuhien.application.model.request.UpdateStatusOrderRequest;
 import com.vuhien.application.repository.OrderRepository;
 import com.vuhien.application.repository.ProductRepository;
-import com.vuhien.application.repository.ProductSizeRepository;
 import com.vuhien.application.repository.StatisticRepository;
 import com.vuhien.application.service.OrderService;
 import com.vuhien.application.service.PromotionService;
@@ -35,8 +34,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private ProductSizeRepository productSizeRepository;
+//    @Autowired
+//    private ProductSizeRepository productSizeRepository;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -67,12 +66,6 @@ public class OrderServiceImpl implements OrderService {
             throw new NotFoundException("Sản phẩm không tồn tại!");
         }
 
-        //Kiểm tra size có sẵn
-//        ProductSize productSize = productSizeRepository.checkProductAndSizeAvailable(createOrderRequest.getProductId(), createOrderRequest.getSize());
-//        if (productSize == null) {
-//            throw new BadRequestException("Size giày sản phẩm tạm hết, Vui lòng chọn sản phẩm khác!");
-//        }
-
         //Kiểm tra giá sản phẩm
         if (product.get().getSalePrice() != createOrderRequest.getProductPrice()) {
             throw new BadRequestException("Giá sản phẩm thay đổi, Vui lòng đặt hàng lại!");
@@ -92,10 +85,24 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(ORDER_STATUS);
         if (product.get().getQuantity() >= createOrderRequest.getQuantityOrder()){
             order.setQuantity(createOrderRequest.getQuantityOrder());
-            order.setTotalPrice(createOrderRequest.getProductPrice() * createOrderRequest.getQuantityOrder());
+            if (createOrderRequest.getCouponCode() != ""){
+                Promotion promotion = promotionService.checkPromotion(createOrderRequest.getCouponCode());
+                if (promotion == null) {
+                    throw new NotFoundException("Mã khuyến mãi không tồn tại hoặc chưa được kích hoạt");
+                }
+                long promotionPrice = promotionService.calculatePromotionPrice(createOrderRequest.getProductPrice(), promotion);
+//                if (promotionPrice != createOrderRequest.getTotalPrice()) {
+//                    throw new BadRequestException("Tổng giá trị đơn hàng thay đổi. Vui lòng kiểm tra và đặt lại đơn hàng");
+//                }
+                Order.UsedPromotion usedPromotion = new Order.UsedPromotion(createOrderRequest.getCouponCode(), promotion.getDiscountType(), promotion.getDiscountValue(), promotion.getMaximumDiscountValue());
+                order.setPromotion(usedPromotion);
+                order.setTotalPrice(promotionPrice * createOrderRequest.getQuantityOrder());
+
+            }else {
+                order.setTotalPrice(createOrderRequest.getProductPrice() * createOrderRequest.getQuantityOrder());
+            }
+
         }else {
-//            order.setQuantity(product.get().getQuantity());
-//            order.setTotalPrice(createOrderRequest.getProductPrice() * product.get().getQuantity());
             throw new BadRequestException("Cửa hàng chỉ còn " + product.get().getQuantity() + " sản phẩm này!");
         }
         order.setProduct(product.get());
@@ -149,7 +156,6 @@ public class OrderServiceImpl implements OrderService {
 
         order.setModifiedAt(new Timestamp(System.currentTimeMillis()));
         order.setProduct(product.get());
-//        order.setSize(updateDetailOrder.getSize());
         order.setPrice(updateDetailOrder.getProductPrice());
         order.setTotalPrice(updateDetailOrder.getTotalPrice());
 
@@ -273,14 +279,6 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderInfoDTO> getListOrderOfPersonByStatus(int status, long userId) {
         List<OrderInfoDTO> list = orderRepository.getListOrderOfPersonByStatus(status, userId);
         System.out.println("hihi");
-//        for (OrderInfoDTO dto : list) {
-//            for (int i = 0; i < SIZE_VN.size(); i++) {
-//                if (SIZE_VN.get(i) == dto.getSizeVn()) {
-////                    dto.setSizeUs(SIZE_US[i]);
-////                    dto.setSizeCm(SIZE_CM[i]);
-//                }
-//            }
-//        }
         return list;
     }
 
@@ -302,14 +300,6 @@ public class OrderServiceImpl implements OrderService {
         } else if (order.getStatus() == RETURNED_STATUS) {
             order.setStatusText("Đơn hàng đã hủy");
         }
-
-//        for (int i = 0; i < SIZE_VN.size(); i++) {
-//            if (SIZE_VN.get(i) == order.getSizeVn()) {
-////                order.setSizeUs(SIZE_US[i]);
-////                order.setSizeCm(SIZE_CM[i]);
-//            }
-//        }
-
         return order;
     }
 

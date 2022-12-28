@@ -1,7 +1,7 @@
 package com.vuhien.application.service;
 
 import com.vuhien.application.entity.Product;
-import com.vuhien.application.entity.ProductSize;
+//import com.vuhien.application.entity.ProductSize;
 import com.vuhien.application.entity.Promotion;
 import com.vuhien.application.model.dto.DetailProductInfoDTO;
 import com.vuhien.application.model.dto.PageableDTO;
@@ -57,13 +57,13 @@ public interface ProductService {
     List<ProductInfoDTO> getRelatedProducts(String id);
 
     //Lấy size có sẵn
-    List<Integer> getListAvailableSize(String id);
+//    List<Integer> getListAvailableSize(String id);
 
     //Nhập số lượng theo size
-    void createSizeCount(CreateSizeCountRequest createSizeCountRequest);
+//    void createSizeCount(CreateSizeCountRequest createSizeCountRequest);
 
     //Lấy size của sản phẩm
-    List<ProductSize> getListSizeOfProduct(String id);
+//    List<ProductSize> getListSizeOfProduct(String id);
 
     List<ShortProductInfoDTO> getListProduct();
 

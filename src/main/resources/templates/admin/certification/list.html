@@ -195,7 +195,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Chỉnh sửa nhãn hiệu</h5>
+                    <h5 class="modal-title">Chỉnh sửa chứng nhận</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -203,9 +203,17 @@
                 <div class="modal-body">
                     <input type="text" hidden id="update-certification-id">
                     <div class="form-group">
-                        <label class="required-label" for="update-certification">Tên nhãn hiệu</label>
+                        <label class="required-label" for="update-certification">Tên chứng nhận</label>
                         <input type="text" class="form-control" id="update-certification">
-                        <span class="invalid-feedback" id="invalid-feedback-update-certification">Độ dài tên nhãn hiệu từ 1 - 50 ký tự</span>
+                        <span class="invalid-feedback" id="invalid-feedback-update-certification">Độ dài tên chứng nhận từ 1 - 50 ký tự</span>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label class="required-label" for="update-description">Mô tả <span
+                                    class="required">*</span></label>
+                        </div>
+                        <textarea class="textarea" id="update-description" name="update-description"></textarea>
+                        <span class="invalid-feedback" id="invalid-feedback-update-description">Mô tả không được để trống</span>
                     </div>
                     <div class="form-group">
                         <label class="required-label">Logo</label>
@@ -301,6 +309,7 @@
             $('#new-certification').val('');
             $('#update-certification').val('');
             $('#update-certification-id').val('');
+            $('#update-description').val('');
             $('.preview-img').attr('src', '');
             $('.invalid-feedback').hide();
         }
@@ -342,7 +351,7 @@
                     data: myJSON,
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
-                        toastr.success("Tạo nhãn hiệu thành công");
+                        toastr.success("Tạo chứng nhận thành công");
                         $('.modal').modal('hide');
                         setTimeout(() => location.reload(), 500);
                     },
@@ -363,6 +372,7 @@
                 success: function (data) {
                     $('.thumbnail-container').show();
                     $("#update-certification").val(data.name);
+                    $('#update-description').val(data.description);
                     $('.preview-img').attr('src',data.thumbnail);
                     if (data.status == 1) {
                         $("#update_status").prop('checked', true)
@@ -376,6 +386,7 @@
 
         $(".btn-update-certification").click(function (){
             let updateCertification = $('#update-certification').val();
+            let updateDescription = $('#update-description').val();
             let thumbnail = $('.preview-img').attr('src');
             let status = false;
             if ($("#update_status").is(":checked")) {
@@ -387,7 +398,7 @@
                 $('#invalid-feedback-new-certification').show();
                 isValid = false;
             }
-            if (description.length === 0) {
+            if (updateDescription.length === 0) {
                 $('#invalid-feedback-new-description').show();
                 isValid = false;
             }
@@ -402,7 +413,7 @@
                     name: updateCertification,
                     thumbnail: thumbnail,
                     status: status,
-                    description: description
+                    description: updateDescription
                 }
                 var myJSON = JSON.stringify(req);
                 $.ajax({

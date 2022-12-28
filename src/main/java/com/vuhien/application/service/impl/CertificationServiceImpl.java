@@ -75,7 +75,7 @@ public class CertificationServiceImpl implements CertificationService {
         try {
             certificationRepository.save(rs);
         } catch (Exception ex) {
-            throw new InternalServerException("Lỗi khi chỉnh sửa nhãn hiệu");
+            throw new InternalServerException("Lỗi khi chỉnh sửa chứng nhận");
         }
     }
 

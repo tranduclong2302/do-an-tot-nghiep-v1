@@ -33,7 +33,4 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     int countByProductId(String id);
 
-    List<Order> findByBuyer(User user);
-
-
 }
