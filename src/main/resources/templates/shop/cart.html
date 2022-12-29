@@ -44,7 +44,7 @@
                             <img th:src="@{${item.product.images[0]}}" th:alt="${item.product.name}">
                         </div>
                         <div class="col-6">
-                            <a th:href="@{${item.product.name}}" th:title="${item.product.id}" target="_blank">
+                            <a th:href="@{${item.product.name} + '/' +${item.product.id}}" th:title="${item.product.id}" target="_blank">
                                 <b>[[${item.product.name}]]</b>
                             </a>
                         </div>

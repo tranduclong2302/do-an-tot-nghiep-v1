@@ -91,7 +91,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     @Query(nativeQuery = true, name = "getAllBySizeAvailable")
     List<ShortProductInfoDTO> getAvailableProducts();
 
-    @Query(value = "SELECT * FROM product WHERE id = ?1 AND quantity > 0 ", nativeQuery = true)
+    @Query(value = "SELECT * FROM product WHERE id = ?1 AND quantity > 0 and expiry > now()", nativeQuery = true)
     Product checkProductAndSizeAvailable(String id);
     //Trừ một sản phẩm đã bán
     @Transactional

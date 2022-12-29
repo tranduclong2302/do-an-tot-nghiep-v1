@@ -137,7 +137,7 @@ public class OrderServiceImpl implements OrderService {
 
         Product productSize = productRepository.checkProductAndSizeAvailable(updateDetailOrder.getProductId());
         if (productSize == null) {
-            throw new BadRequestException("Số lượng sản phẩm tạm hết, Vui lòng chọn sản phẩm khác");
+            throw new BadRequestException("Số ợnglư sản phẩm tạm hết, Vui lòng chọn sản phẩm khác");
         }
 
         //Kiểm tra khuyến mại

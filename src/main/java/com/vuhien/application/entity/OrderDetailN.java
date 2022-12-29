@@ -1,8 +1,6 @@
 package com.vuhien.application.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -27,4 +25,18 @@ public class OrderDetailN {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UsedPromotionN {
+        private String couponCode;
+
+        private int discountType;
+
+        private long discountValue;
+
+        private long maximumDiscountValue;
+    }
 }

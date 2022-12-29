@@ -24,6 +24,8 @@ public class OrderN {
     private String receiverPhone;
     @Column(name = "receiver_address")
     private String receiverAddress;
+    @Column(name = "total_price")
+    private double totalPrice;
     @Column(name = "status")
     private int status;
     @Column(name = "notes")
