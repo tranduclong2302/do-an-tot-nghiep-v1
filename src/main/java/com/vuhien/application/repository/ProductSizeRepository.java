@@ -22,13 +22,13 @@ public interface ProductSizeRepository extends JpaRepository<ProductSize,Long> {
 //    @Query(value = "SELECT * FROM product_size WHERE product_id = ?1 AND quantity >0", nativeQuery = true)
 //    ProductSize checkProductAndSizeAvailable(String id);
 
-    //Trừ 1 sản phẩm theo size
+    //Trừ số lượng sản phẩm
     @Transactional
     @Modifying
     @Query(nativeQuery = true, value = "Update product_size set quantity = quantity - 1 where product_id = ?1 and size = ?2")
     public void minusOneProductBySize(String id, int size);
 
-    //Cộng 1 sản phẩm theo size
+    //Cộng số lượng sản phẩm
     @Transactional
     @Modifying
     @Query(nativeQuery = true, value = "Update product_size set quantity = quantity + 1 where product_id = ?1 and size = ?2")
