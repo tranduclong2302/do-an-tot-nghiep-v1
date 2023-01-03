@@ -71,7 +71,7 @@
                     <form method="post" th:action="@{/pay}" >
                         <input type="text" th:value="${order.totalPrice}"  name="price" readonly style="display: none" />
                         <input type="text" th:value="${order.id}"  name="id" readonly style="display: none" />
-                        <button th:if="${order.getStatus() == 1}" type="submit" class="btn btn-primary red-btn " > Thanh toán bằng Paypal</button>
+                        <button th:if="${order.getStatus() == 1}" type="submit" class="btn btn-primary red-btn " >Thanh toán bằng Paypal</button>
                     </form>
                 </div>
                 <div class="item-small">
@@ -107,7 +107,6 @@
 <th:block id="js-resources">
     <script>
         formatMoney();
-
         $('.cancel-btn').click(function() {
             let orderId = $(this).data("order");
             $.ajax({

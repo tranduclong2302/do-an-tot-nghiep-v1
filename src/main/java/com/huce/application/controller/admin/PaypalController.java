@@ -4,6 +4,7 @@ import com.huce.application.config.Constants;
 import com.huce.application.config.PaypalPaymentIntent;
 import com.huce.application.config.PaypalPaymentMethod;
 import com.huce.application.entity.Order;
+import com.huce.application.repository.OrderRepository;
 import com.huce.application.service.OrderService;
 import com.huce.application.service.PaypalService;
 import com.huce.application.utils.PaypalUtil;
@@ -32,6 +33,9 @@ public class PaypalController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @PostMapping("/pay")
     public String pay(HttpServletRequest request, @RequestParam(defaultValue = "0") double price, long id ){
@@ -67,6 +71,7 @@ public class PaypalController {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             Order order = orderService.findOrderById(idOrder);
             order.setStatus(Constants.PAYMENT_STATUS);
+            orderRepository.save(order);
             if(payment.getState().equals("approved")){
                 return "redirect:/tai-khoan/lich-su-giao-dich/";
             }

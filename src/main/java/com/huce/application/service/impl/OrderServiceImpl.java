@@ -197,9 +197,9 @@ public class OrderServiceImpl implements OrderService {
             throw new BadRequestException("Trạng thái đơn hàng không hợp lệ");
         }
         //Cập nhật trạng thái đơn hàng
-        if (order.getStatus() == Constants.ORDER_STATUS) {
+        if (order.getStatus() == Constants.ORDER_STATUS || order.getStatus() == PAYMENT_STATUS) {
             //Đơn hàng ở trạng thái chờ lấy hàng
-            if (updateStatusOrderRequest.getStatus() == Constants.ORDER_STATUS) {
+            if (updateStatusOrderRequest.getStatus() == Constants.ORDER_STATUS || updateStatusOrderRequest.getStatus() == PAYMENT_STATUS) {
                 order.setReceiverPhone(updateStatusOrderRequest.getReceiverPhone());
                 order.setReceiverName(updateStatusOrderRequest.getReceiverName());
                 order.setReceiverAddress(updateStatusOrderRequest.getReceiverAddress());
@@ -287,7 +287,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         if (order.getStatus() == ORDER_STATUS) {
-            order.setStatusText("Chờ lấy hàng");
+            order.setStatusText("Đơn hàng chưa thanh toán");
         } else if (order.getStatus() == DELIVERY_STATUS) {
             order.setStatusText("Đang giao hàng");
         } else if (order.getStatus() == COMPLETED_STATUS) {
@@ -296,6 +296,8 @@ public class OrderServiceImpl implements OrderService {
             order.setStatusText("Đơn hàng đã trả lại");
         } else if (order.getStatus() == RETURNED_STATUS) {
             order.setStatusText("Đơn hàng đã hủy");
+        } else if (order.getStatus() == PAYMENT_STATUS) {
+            order.setStatusText("Đơn hàng đã thanh toán");
         }
         return order;
     }
