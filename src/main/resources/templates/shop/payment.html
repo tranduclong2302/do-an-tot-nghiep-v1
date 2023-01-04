@@ -176,10 +176,7 @@
             if ([[${product.couponCode}]] != null && [[${product.couponCode}]] != "") {
                 promotionValue = totalPrice- [[${product.promotionPrice}]] * quantityOrder;
                 console.log(promotionValue);
-                // promotionValue = promotionValue * quantityOrder;
-                // console.log(promotionValue);
-                totalPrice = totalPrice  * quantityOrder - promotionValue;
-                console.log(totalPrice);
+                totalPrice = totalPrice - promotionValue;
             }
             $('#in-total-price').val(totalPrice);
             $('#in-promotion-value').val(promotionValue);

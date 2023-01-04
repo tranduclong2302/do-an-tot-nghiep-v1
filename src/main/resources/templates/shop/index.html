@@ -196,6 +196,7 @@
 						'nav': true
 					}">
                 <th:block th:each="view : ${viewProducts}">
+                    <form th:action="@{/add-to-cart}" method="post" >
                     <div class="product-default">
                     <figure>
                         <a th:href="@{/{slug}/{id}(id=${view.id},slug=${view.slug})}">
@@ -223,11 +224,13 @@
                         </div><!-- End .product-container -->
 <!--                        <div class="product-action">-->
 <!--                            <a href="#" class="btn-icon-wish"><i class="icon-heart"></i></a>-->
-<!--                            <button class="btn-icon btn-add-cart" data-toggle="modal" data-target="#addCartModal">Mua hàng</button>-->
+<!--                            <input type="hidden" th:value="${view.id}" name="id">-->
+<!--                            <input type="submit" class="cart" value="Thêm vào giỏ hàng">-->
 <!--                            <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>-->
 <!--                        </div>-->
                     </div><!-- End .product-details -->
                 </div>
+                    </form>
                 </th:block>
             </div><!-- End .featured-proucts -->
         </div>
