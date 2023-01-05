@@ -387,15 +387,9 @@ public class ProductServiceImpl implements ProductService {
         int totalItems;
         List<ProductInfoDTO> products;
 
-//        if (req.getSizes().isEmpty()) {
             //Nếu không có size
             products = productRepository.searchProductAllSize(req.getBrands(), req.getCategories(), req.getCertifications() , req.getMinPrice(), req.getMaxPrice(), LIMIT_PRODUCT_SHOP, pageUtil.calculateOffset());
             totalItems = productRepository.countProductAllSize(req.getBrands(), req.getCategories(), req.getCertifications(), req.getMinPrice(), req.getMaxPrice());
-//        } else {
-//            //Nếu có size
-//            products = productRepository.searchProductBySize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice(), req.getSizes(), LIMIT_PRODUCT_SHOP, pageUtil.calculateOffset());
-//            totalItems = productRepository.countProductBySize(req.getBrands(), req.getCategories(), req.getMinPrice(), req.getMaxPrice(), req.getSizes());
-//        }
 
 //        Tính tổng số trang
         int totalPages = pageUtil.calculateTotalPage(totalItems);
