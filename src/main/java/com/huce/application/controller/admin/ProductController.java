@@ -25,7 +25,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.List;
 
-import static com.huce.application.config.Constants.SIZE_VN;
 
 @Slf4j
 @Controller
@@ -181,7 +180,7 @@ public class ProductController {
         model.addAttribute("brands", brands);
 
         //Lấy danh sách size
-        model.addAttribute("sizeVN", SIZE_VN);
+//        model.addAttribute("sizeVN", SIZE_VN);
 
         //Lấy size của sản phẩm
 //        List<ProductSize> productSizes = productService.getListSizeOfProduct(id);

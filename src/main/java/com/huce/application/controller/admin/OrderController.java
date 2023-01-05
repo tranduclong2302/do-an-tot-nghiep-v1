@@ -69,9 +69,6 @@ public class OrderController {
         List<ShortProductInfoDTO> products = productService.getAvailableProducts();
         model.addAttribute("products", products);
 
-        // Get list size
-        model.addAttribute("sizeVn", SIZE_VN);
-
 //        //Get list valid promotion
         List<Promotion> promotions = promotionService.getAllValidPromotion();
         model.addAttribute("promotions", promotions);

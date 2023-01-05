@@ -101,8 +101,14 @@ import java.util.List;
         resultSetMapping = "productInfoDto",
         query = "SELECT p.id, p.name, p.sale_price as price, p.product_view as views, p.slug, p.total_sold, p.images ->> '$[0]' AS images " +
                 "FROM product p " +
+                "INNER JOIN product_category pc " +
+                "ON pc.product_id = p.id " +
+                "INNER JOIN category c " +
+                "ON c.id = pc.category_id " +
                 "WHERE p.status = 1 " +
                 "AND p.id != ?1 " +
+                "AND pc.category_id " +
+                "IN (SELECT category_id FROM product_category pc JOIN category c ON pc.category_id = c.id WHERE pc.product_id = ?1) "+
                 "AND p.expiry >= NOW() " +
                 "ORDER BY RAND() " +
                 "LIMIT ?2"
