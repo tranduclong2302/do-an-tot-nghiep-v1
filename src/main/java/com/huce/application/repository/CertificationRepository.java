@@ -17,6 +17,5 @@ public interface CertificationRepository extends JpaRepository<Certification, Lo
             "AND c.status LIKE CONCAT('%',?3,'%')", nativeQuery = true)
     Page<Certification> adminGetListCertifications(String id, String name, String status, Pageable pageable);
 
-//    @Query(name = "getProductOrderBrands",nativeQuery = true)
-//    List<ChartDTO> getProductOrderBrands();
+
 }

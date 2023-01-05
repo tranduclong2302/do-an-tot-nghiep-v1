@@ -74,12 +74,6 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "AND p.brand_id LIKE CONCAT('%',?5,'%')) as tb1 on pro.id=tb1.id", nativeQuery = true)
     Page<Product> adminGetListProductsNotSold(String id, String name, String category, String certification, String brand, Pageable pageable);
 
-//    @Query(value = "SELECT NEW com.vuhien.application.model.dto.ProductInfoDTO(p.id, p.name, p.slug, p.price ,p.images ->> '$[0]', p.total_sold) " +
-//            "FROM product p " +
-//            "WHERE p.status = 1 " +
-//            "ORDER BY p.created_at DESC limit ?1",nativeQuery = true)
-//    List<ProductInfoDTO> getListBestSellProducts(int limit);
-
     //Lấy sản phẩm được bán nhiều
     @Query(nativeQuery = true,name = "getListBestSellProducts")
     List<ProductInfoDTO> getListBestSellProducts(int limit);
@@ -129,23 +123,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     @Query(nativeQuery = true, value = "Update product set quantity = quantity + ?1 where id = ?2")
     void plusProduct(Long quantity, String productId);
 
-    //Tìm kiến sản phẩm theo size
-//    @Query(nativeQuery = true, name = "searchProductBySize")
-//    List<ProductInfoDTO> searchProductBySize(List<Long> brands, List<Long> categories, long minPrice, long maxPrice, List<Integer> sizes, int limit, int offset);
 
-    //Đếm số sản phẩm
-//    @Query(nativeQuery = true, value = "SELECT COUNT(DISTINCT d.id) " +
-//            "FROM (" +
-//            "SELECT DISTINCT product.id " +
-//            "FROM product " +
-//            "INNER JOIN product_category " +
-//            "ON product.id = product_category.product_id " +
-//            "WHERE product.status = 1 AND product.brand_id IN (?1) AND product_category.category_id IN (?2) " +
-//            "AND product.sale_price > ?3 AND product.sale_price < ?4) as d " +
-//            "INNER JOIN product_size " +
-//            "ON product_size.product_id = d.id " +
-//            "WHERE product_size.size IN (?5)")
-//    int countProductBySize(List<Long> brands, List<Long> categories, long minPrice, long maxPrice, List<Integer> sizes);
 
     //Tìm kiến sản phẩm k theo size
     @Query(nativeQuery = true, name = "searchProductAllSize")
