@@ -22,5 +22,9 @@ public class UpdateProfileRequest {
     @JsonProperty("full_name")
     private String fullName;
 
+    private String thumbnail;
+
     private String address;
+
+
 }

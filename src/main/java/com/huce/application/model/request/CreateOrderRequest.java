@@ -17,10 +17,6 @@ public class CreateOrderRequest {
     @NotBlank(message = "Sản phẩm trống")
     @JsonProperty("product_id")
     private String productId;
-//
-//    @Min(value = 35)
-//    @Max(value = 42)
-//    private int size;
 
     @NotBlank(message = "Họ tên trống")
     @JsonProperty("receiver_name")

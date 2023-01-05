@@ -19,9 +19,6 @@ public class UpdateDetailOrder {
     @JsonProperty("product_id")
     private String productId;
 
-    @Min(value = 35)
-    @Max(value = 42)
-    private int size;
 
     @JsonProperty("coupon_code")
     private String couponCode;
