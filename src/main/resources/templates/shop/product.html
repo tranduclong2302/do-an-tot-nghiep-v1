@@ -145,20 +145,6 @@
                         </div><!-- End .collapse -->
                     </div><!-- End .widget -->
 
-<!--                    <div class="widget">-->
-<!--                        <h3 class="widget-title">-->
-<!--                            <a data-toggle="collapse" href="#widget-body-3" role="button" aria-expanded="true"-->
-<!--                               aria-controls="widget-body-3">Size</a>-->
-<!--                        </h3>-->
-<!--                        &lt;!&ndash; Size &ndash;&gt;-->
-<!--                        <div class="size content" id="widget-body-3">-->
-<!--                            <div class="select-filter collapse show" id="size-collapse">-->
-<!--                                <th:block th:each="size : ${sizeVn}">-->
-<!--                                    <div class="item check-size" th:data-id="${size}" th:text="${size}"></div>-->
-<!--                                </th:block>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>&lt;!&ndash; End .widget &ndash;&gt;-->
                     <div class="widget">
                         <h3 class="widget-title">
                             <a data-toggle="collapse" href="#widget-body-7" role="button" aria-expanded="true"
@@ -287,18 +273,6 @@
                 searchProduct();
             }
         });
-        // $(".check-size").click(function () {
-        //     $(this).toggleClass('size-choose');
-        //
-        //     checkedSizes = $(".check-size.size-choose").map(function () {
-        //         return $(this).data("id");
-        //     }).get();
-        //
-        //     if (!$(this).hasClass('checkbox-mobile')) {
-        //         currentPage = 1;
-        //         searchProduct();
-        //     }
-        // });
 
         $('#apply-price-web').click(function () {
             minPrice = parseInt($('.price-input#from-price').val());
@@ -337,7 +311,6 @@
         })
 
         function searchProduct() {
-            // if (checkedSizes.length > 0 || checkedBrands.length > 0 || checkedCategories.length > 0 || minPrice > 0 || maxPrice > 0) {
             if (checkedCertifications.length > 0 || checkedBrands.length > 0 || checkedCategories.length > 0 || minPrice > 0 || maxPrice > 0) {
                 $('.clear-filter')
                     .removeAttr('disabled');
@@ -362,7 +335,6 @@
                 brands: checkedBrands,
                 categories: checkedCategories,
                 certifications: checkedCertifications,
-                // sizes: checkedSizes,
                 min_price: minPrice,
                 max_price: maxPrice,
                 page: currentPage
@@ -458,7 +430,6 @@
                 searchProduct();
 
                 $('.filter-bar input').prop('checked', false);
-                // $('.size .item').removeClass('size-choose');
                 $('.price-input').val('');
                 $('.price-input.small').val('');
                 $('.apply-price:not(.small)').attr('disabled', 'disabled');
