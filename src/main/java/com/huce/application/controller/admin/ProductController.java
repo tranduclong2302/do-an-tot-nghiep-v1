@@ -133,6 +133,32 @@ public class ProductController {
 
         return "admin/product/list-not-sold";
     }
+    @GetMapping("/admin/products-about-to-expiry")
+    public String homePagesAboutToExpiry(Model model,
+                                @RequestParam(defaultValue = "", required = false) String id,
+                                @RequestParam(defaultValue = "", required = false) String name,
+                                @RequestParam(defaultValue = "", required = false) String category,
+                                @RequestParam(defaultValue = "", required = false) String certification,
+                                @RequestParam(defaultValue = "", required = false) String brand,
+                                @RequestParam(defaultValue = "1", required = false) Integer page) {
+
+        //Lấy danh sách nhãn hiệu
+        List<Brand> brands = brandService.getListBrand();
+        model.addAttribute("brands", brands);
+        //Lấy danh sách danh mục
+        List<Category> categories = categoryService.getListCategories();
+        model.addAttribute("categories", categories);
+        //Lấy danh sách chứng nhận
+        List<Certification> certifications = certificationService.getListCertification();
+        model.addAttribute("certifications", certifications);
+        //Lấy danh sách sản phẩm
+        Page<Product> products = productService.adminGetListProductsAboutToExpire(id, name, category, certification, brand, page);
+        model.addAttribute("products", products.getContent());
+        model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("currentPage", products.getPageable().getPageNumber() + 1);
+
+        return "admin/product/list-about-to-expiry";
+    }
 
     @GetMapping("/admin/products/create")
     public String getProductCreatePage(Model model) {
@@ -179,12 +205,6 @@ public class ProductController {
         List<Brand> brands = brandService.getListBrand();
         model.addAttribute("brands", brands);
 
-        //Lấy danh sách size
-//        model.addAttribute("sizeVN", SIZE_VN);
-
-        //Lấy size của sản phẩm
-//        List<ProductSize> productSizes = productService.getListSizeOfProduct(id);
-//        model.addAttribute("productSizes", productSizes);
 
         return "admin/product/edit";
     }
@@ -221,6 +241,16 @@ public class ProductController {
         Page<Product> products = productService.adminGetListProductsNotSold(id, name, category, certification, brand, page);
         return ResponseEntity.ok(products);
     }
+    @GetMapping("/api/admin/products-about-to-expiry")
+    public ResponseEntity<Object> getListProductsAboutToExpire(@RequestParam(defaultValue = "", required = false) String id,
+                                                      @RequestParam(defaultValue = "", required = false) String name,
+                                                      @RequestParam(defaultValue = "", required = false) String category,
+                                                      @RequestParam(defaultValue = "", required = false) String certification,
+                                                      @RequestParam(defaultValue = "", required = false) String brand,
+                                                      @RequestParam(defaultValue = "1", required = false) Integer page) {
+        Page<Product> products = productService.adminGetListProductsAboutToExpire(id, name, category, certification, brand, page);
+        return ResponseEntity.ok(products);
+    }
 
     @GetMapping("/api/admin/products/{id}")
     public ResponseEntity<Object> getProductDetail(@PathVariable String id) {
@@ -251,13 +281,6 @@ public class ProductController {
         productService.deleteProductById(id);
         return ResponseEntity.ok("Xóa sản phẩm thành công!");
     }
-
-//    @PutMapping("/api/admin/products/sizes")
-//    public ResponseEntity<?> updateSizeCount(@Valid @RequestBody CreateSizeCountRequest createSizeCountRequest) {
-//        productService.createSizeCount(createSizeCountRequest);
-//
-//        return ResponseEntity.ok("Cập nhật thành công!");
-//    }
 
     @PutMapping("/api/admin/products/{id}/update-feedback-image")
     public ResponseEntity<?> updatefeedBackImages(@PathVariable String id, @Valid @RequestBody UpdateFeedBackRequest req) {

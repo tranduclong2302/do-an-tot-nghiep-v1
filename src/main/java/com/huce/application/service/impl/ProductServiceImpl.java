@@ -83,6 +83,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Page<Product> adminGetListProductsAboutToExpire(String id, String name, String category, String certification, String brand, Integer page) {
+        page--;
+        if (page < 0) {
+            page = 0;
+        }
+        Pageable pageable = PageRequest.of(page, LIMIT_PRODUCT, Sort.by("created_at").descending());
+        return productRepository.adminGetListProductsAboutToExpire(id, name, category,certification, brand, pageable);
+    }
+
+    @Override
     public Product createProduct(CreateProductRequest createProductRequest) {
         //Kiểm tra có danh muc
         if (createProductRequest.getCategoryIds().isEmpty()) {

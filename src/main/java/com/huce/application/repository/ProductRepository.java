@@ -57,6 +57,19 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "AND p.name LIKE CONCAT('%',?2,'%') " +
             "AND c.id LIKE CONCAT('%',?3,'%') " +
             "AND ce.id LIKE CONCAT('%',?4,'%') " +
+            "AND datediff(p.expiry , now()) < 5 " +
+            "AND p.brand_id LIKE CONCAT('%',?5,'%')) as tb1 on pro.id=tb1.id", nativeQuery = true)
+    Page<Product> adminGetListProductsAboutToExpire(String id, String name, String category, String certification, String brand, Pageable pageable);
+
+    @Query(value = "SELECT * FROM product pro right join (SELECT DISTINCT p.* FROM product p " +
+            "INNER JOIN product_category pc ON p.id = pc.product_id " +
+            "INNER JOIN category c ON c.id = pc.category_id " +
+            "INNER JOIN product_certification pce ON p.id = pce.product_id " +
+            "INNER JOIN certification ce ON ce.id = pce.certification_id " +
+            "WHERE p.id LIKE CONCAT('%',?1,'%') " +
+            "AND p.name LIKE CONCAT('%',?2,'%') " +
+            "AND c.id LIKE CONCAT('%',?3,'%') " +
+            "AND ce.id LIKE CONCAT('%',?4,'%') " +
             "AND p.expiry < NOW() " +
             "AND p.brand_id LIKE CONCAT('%',?5,'%')) as tb1 on pro.id=tb1.id", nativeQuery = true)
     Page<Product> adminGetListProductsNotSold(String id, String name, String category, String certification, String brand, Pageable pageable);

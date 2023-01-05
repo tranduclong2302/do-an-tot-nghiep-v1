@@ -25,6 +25,8 @@ public interface ProductService {
 
     Page<Product> adminGetListProductsNotSold(String id, String name, String category, String certification, String brand, Integer page);
 
+    Page<Product> adminGetListProductsAboutToExpire(String id, String name, String category, String certification, String brand, Integer page);
+
     //Tạo sản phẩm
     Product createProduct(CreateProductRequest createProductRequest);
 
