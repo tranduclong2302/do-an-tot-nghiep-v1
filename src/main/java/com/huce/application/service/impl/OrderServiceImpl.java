@@ -134,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
 
         Product productSize = productRepository.checkProductAndExpiryAvailable(updateDetailOrder.getProductId());
         if (productSize == null) {
-            throw new BadRequestException("Số ợnglư sản phẩm tạm hết, Vui lòng chọn sản phẩm khác");
+            throw new BadRequestException("Số lượng sản phẩm tạm hết, Vui lòng chọn sản phẩm khác");
         }
 
         //Kiểm tra khuyến mại
@@ -331,7 +331,7 @@ public class OrderServiceImpl implements OrderService {
             statistic.setOrder(order);
             statistic.setSales(statistic.getSales() + amount);
             statistic.setQuantity(statistic.getQuantity() + quantity);
-            statistic.setProfit(statistic.getSales() - (statistic.getQuantity() * order.getProduct().getPrice()));
+            statistic.setProfit(quantity * order.getProduct().getPrice() + statistic.getProfit());
             statisticRepository.save(statistic);
         }else {
             Statistic statistic1 = new Statistic();

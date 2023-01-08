@@ -132,10 +132,10 @@
                                             </div>
                                         </div>
                                         <div class="info-div">
-                                            <label>Chi tiết đơn hàng</label>
-                                            <th:block th:if="${order.status} == 1">
-                                                <button class="btn" onclick="openModalChangeDetailOrder()"><i class="fas fa-edit"></i></button>
-                                            </th:block>
+<!--                                            <label>Chi tiết đơn hàng</label>-->
+<!--                                            <th:block th:if="${order.status} == 1">-->
+<!--                                                <button class="btn" onclick="openModalChangeDetailOrder()"><i class="fas fa-edit"></i></button>-->
+<!--                                            </th:block>-->
                                             <div class="table-responsive">
                                                 <table class="table table-bordered">
                                                     <thead>
@@ -209,72 +209,72 @@
         </section>
 
     <!-- Modal change detail order -->
-    <th:block th:if="${order.status} == 1">
-        <div class="modal fade" id="modal-change-detail-order" tabindex="-1" role="dialog" aria-labelledby="modalChangeDetailOrder" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Chi tiết đơn hàng</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="product">Sản phẩm</label>
-                            <select name="product" class="form-control thuy-search-select" id="product">
-                                <th:block th:each="product : ${products}">
-                                    <option th:value="${product.id}" th:text="${product.name}"></option>
-                                </th:block>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="size">Kích cỡ</label>
-                            <select class="form-control" id="size">
+<!--    <th:block th:if="${order.status} == 1">-->
+<!--        <div class="modal fade" id="modal-change-detail-order" tabindex="-1" role="dialog" aria-labelledby="modalChangeDetailOrder" aria-hidden="true">-->
+<!--            <div class="modal-dialog" role="document">-->
+<!--                <div class="modal-content">-->
+<!--&lt;!&ndash;                    <div class="modal-header">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <h5 class="modal-title">Chi tiết đơn hàng</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <span aria-hidden="true">&times;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </button>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--                    <div class="modal-body">-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="product">Sản phẩm</label>-->
+<!--                            <select name="product" class="form-control thuy-search-select" id="product">-->
+<!--                                <th:block th:each="product : ${products}">-->
+<!--                                    <option th:value="${product.id}" th:text="${product.name}"></option>-->
+<!--                                </th:block>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="size">Số lượng</label>-->
+<!--                            <select class="form-control" id="size">-->
 
-                            </select>
-                            <span class="invalid-feedback" id="invalid-feedback-product">Sản phẩm đã hết</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="size">Khuyến mãi</label>
-                            <select class="form-control" id="promotion">
-                                <option value="">Chọn khuyến mãi</option>
-                                <th:block th:each="promotion : ${promotions}">
-                                    <option th:value="${promotion.couponCode}">
-                                        <span th:text="${promotion.couponCode}"></span> -
-                                        <th:block th:if="${promotion.discountType} == 1">
-                                            <span th:text="${promotion.discountValue}"></span> %
-                                        </th:block>
-                                        <th:block th:if="${promotion.discountType} == 2">
-                                            <span class="text-price" th:text="${promotion.discountValue}"></span> đ
-                                        </th:block>
-                                    </option>
-                                </th:block>
-                            </select>
-                        </div>
-                        <div>
-                            <div class="display-info-price">
-                                <span>Giá tiền</span>
-                                <span class="text-price badge badge-primary" id="product-price">0</span>
-                            </div>
-                            <div class="display-info-price">
-                                <span>Khuyến mãi</span>
-                                <span class="text-price badge badge-warning" id="promotion-price">0</span>
-                            </div>
-                            <div class="display-info-price">
-                                <span>Thành tiền</span>
-                                <span class="text-price badge badge-success" id="total-price">0</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                        <button type="button" class="btn btn-success" onclick="changeDetailOrder()">Chọn</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </th:block>
+<!--                            </select>-->
+<!--                            <span class="invalid-feedback" id="invalid-feedback-product">Sản phẩm đã hết</span>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                            <label for="size">Khuyến mãi</label>-->
+<!--                            <select class="form-control" id="promotion">-->
+<!--                                <option value="">Chọn khuyến mãi</option>-->
+<!--                                <th:block th:each="promotion : ${promotions}">-->
+<!--                                    <option th:value="${promotion.couponCode}">-->
+<!--                                        <span th:text="${promotion.couponCode}"></span> - -->
+<!--                                        <th:block th:if="${promotion.discountType} == 1">-->
+<!--                                            <span th:text="${promotion.discountValue}"></span> %-->
+<!--                                        </th:block>-->
+<!--                                        <th:block th:if="${promotion.discountType} == 2">-->
+<!--                                            <span class="text-price" th:text="${promotion.discountValue}"></span> đ-->
+<!--                                        </th:block>-->
+<!--                                    </option>-->
+<!--                                </th:block>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <div class="display-info-price">-->
+<!--                                <span>Giá tiền</span>-->
+<!--                                <span class="text-price badge badge-primary" id="product-price">0</span>-->
+<!--                            </div>-->
+<!--                            <div class="display-info-price">-->
+<!--                                <span>Khuyến mãi</span>-->
+<!--                                <span class="text-price badge badge-warning" id="promotion-price">0</span>-->
+<!--                            </div>-->
+<!--                            <div class="display-info-price">-->
+<!--                                <span>Thành tiền</span>-->
+<!--                                <span class="text-price badge badge-success" id="total-price">0</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>-->
+<!--                        <button type="button" class="btn btn-success" onclick="changeDetailOrder()">Chọn</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </th:block>-->
 
 </section>
 
