@@ -331,7 +331,7 @@ public class OrderServiceImpl implements OrderService {
             statistic.setOrder(order);
             statistic.setSales(statistic.getSales() + amount);
             statistic.setQuantity(statistic.getQuantity() + quantity);
-            statistic.setProfit(quantity * order.getProduct().getPrice() + statistic.getProfit());
+            statistic.setProfit(order.getTotalPrice() - quantity * order.getProduct().getPrice() + statistic.getProfit());
             statisticRepository.save(statistic);
         }else {
             Statistic statistic1 = new Statistic();
