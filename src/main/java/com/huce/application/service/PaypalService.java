@@ -8,6 +8,10 @@ import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +30,10 @@ public class PaypalService {
     ) throws PayPalRESTException {
         Amount amount = new Amount();
         amount.setCurrency(currency);
-        amount.setTotal(String.format("%.2f", total));
+//        total = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        String formatTotal = formatter.format(total).replace(",",".");
+        amount.setTotal(formatTotal);
         Transaction transaction = new Transaction();
         transaction.setDescription(description);
         transaction.setAmount(amount);
